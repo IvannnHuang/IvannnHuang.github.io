@@ -41,7 +41,7 @@
                 <!-- Masthead Heading-->
                 <br>
                 <br>
-                <h1 class="masthead-heading text-uppercase mb-0">ECE 4160 - Fast Robots</h1>
+                <h2 class="masthead-heading text-uppercase mb-0">ECE 4160 - Fast Robots</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -83,7 +83,7 @@
                                  alt="..." style="max-width: 80%; max-height: 70%; object-fit: contain; display: block; margin: 0 auto;">
                             
                             <!-- Bold, Centered Text Below Image -->
-                            <p class="fw-bold mt-4 mb-2 text-center" style="color: white; font-size: 24px;">Lab 1</p>
+                            <p class="fw-bold mt-4 mb-2 text-center" style="color: white; font-size: 32px;">Lab 1</p>
                         </div>
                     </div>
 
@@ -104,7 +104,7 @@
                                  alt="..." style="max-width: 80%; max-height: 70%; object-fit: contain; display: block; margin: 0 auto;">
                             
                             <!-- Bold, Centered Text Below Image -->
-                            <p class="fw-bold mt-4 mb-2 text-center" style="color: white; font-size: 24px;">Lab 2</p>
+                            <p class="fw-bold mt-4 mb-2 text-center" style="color: white; font-size: 32px;">Lab 2</p>
                         </div>
                     </div>
 
@@ -150,8 +150,9 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- About Section Content-->
-                <div class="row">
-                    <div class="col-lg-4 ms-auto"><p class="lead">I am a current Undergraduate of Engineering student at Cornell University majoring in Electrical and Computer Engineeering. My area of interests include robotics, automotives, embedded systems, microcontrollers, hardware, and power systems. I can be reached at qh229@cornell.edu.
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 ">
+                        <p class="lead">I am a current Undergraduate of Engineering student at Cornell University majoring in Electrical and Computer Engineeering. My area of interests include robotics, automotives, embedded systems, microcontrollers, hardware, and power systems. I can be reached at qh229@cornell.edu.
         </p></div>       
         </section>
 
@@ -175,7 +176,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1<h3 class="text-warning">The Artemis board and Bluetooth</h3></h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -191,8 +192,8 @@
                                             During this lab, I explored two major tasks:
                                         </p>
                                         <ol>
-                                            <li><strong>Lab 1A:</strong> Familiarized myself with the SparkFun RedBoard Artemis Nano using the Arduino IDE.</li>
-                                            <li><strong>Lab 1B:</strong> Established Bluetooth communication between my Artemis board and a Python environment running in a Jupyter notebook.</li>
+                                            <li><strong>Lab 1A:</strong> Familiarized with the SparkFun RedBoard Artemis Nano using the Arduino IDE.</li>
+                                            <li><strong>Lab 1B:</strong> Established Bluetooth communication between Artemis board and a Python environment running in a Jupyter notebook.</li>
                                         </ol>
                                         <p>
                                             By the end of these two lab sections, I set up my board, gathered sensor data, and used wireless connections to transmit information back and forth.
@@ -209,7 +210,9 @@
                                         <h5>Lab 1A: Arduino IDE and Artemis Board</h5>
                                         <p>
                                             <strong>Objective:</strong><br/>
-                                            1. Install and configure the Arduino IDE to program the Artemis board.<br/>
+                                            1. Install the <a href="https://www.arduino.cc/en/software">Arduino IDE</a> and 
+                                            <a href="https://learn.sparkfun.com/tutorials/artemis-development-with-the-arduino-ide/setting-up-the-arduino-ide">Sparkfun Appollo3 boards</a>
+                                             manager to program the Artemis board.<br/>
                                             2. Upload example sketches to test the board’s built-in LED, serial communication, temperature sensor, and pulse-density microphone.
                                         </p>
 
@@ -225,64 +228,92 @@
                                         </p>
 
                                         <ol>
-                                            <li>I connected the Artemis board to my computer using the USB cable.</li>
-                                            <li>I selected the correct board and port in the Arduino IDE.</li>
+                                            <li>Selected the correct board and port in the Arduino IDE and connect to Artemis board.</li>
                                             <li>
-                                                I uploaded the following example sketches from <code>File -&gt; Examples</code>:
+                                                Uploaded the following example sketches from <code>File -&gt; Examples</code>:
                                                 <ul>
-                                                    <li><strong>Blink</strong> – I confirmed the onboard LED was blinking.</li>
-                                                    <li><strong>Example4_Serial</strong> – I printed messages to the Serial Monitor and tested input/output.</li>
-                                                    <li><strong>Example2_analogRead</strong> – I monitored the onboard temperature sensor.</li>
-                                                    <li><strong>Example1_MicrophoneOutput</strong> – I tested the pulse density microphone.</li>
+                                                    <li>
+                                                        <strong>Blink</strong> – Confirmed the onboard LED was blinking.
+                                                        <video width="400" controls class="d-block mx-auto mt-2">
+                                                            <source src="assets/img/portfolio/blink.mp4" type="video/mp4">
+                                                        </video>
+                                                    </li>
+                                                    <br>
+                                                    <li>
+                                                        <strong>Example4_Serial</strong> – Printed messages to the Serial Monitor and tested input/output.
+                                                    </li>
+                                                    <img class="img-fluid w-75 d-block mx-auto mt-2" src="assets/img/portfolio/serial.png" alt="Serial Monitor Example">
+                                                    <br>
+                                                    <li>
+                                                        <strong>Example2_analogRead</strong> – Monitored the onboard temperature sensor.
+                                                    </li>
+                                                    <img class="img-fluid w-75 d-block mx-auto mt-2" src="assets/img/portfolio/temperature.png" alt="Analog Read Example">
+                                                    <br>
+                                                    <li>
+                                                        <strong>Example1_MicrophoneOutput</strong> – Tested the pulse density microphone.
+                                                        <video width="650" controls class="d-block mx-auto mt-2">
+                                                            <source src="assets/img/portfolio/microphone.mp4" type="video/mp4">
+                                                        </video>                                                    
+                                                    </li>
                                                 </ul>
                                             </li>
                                         </ol>
 
                                         
                                         <br>
+                                        <br>
                                         
                                         <h5>Lab 1B: Bluetooth Connectivity</h5>
                                         <p>
                                             <strong>Objective:</strong><br/>
-                                            1. Establish BLE (Bluetooth Low Energy) communication between my Artemis board and a Python environment in Jupyter Lab.<br/>
-                                            2. Learn how to send commands from my computer to the Artemis and receive data back from the board.
+                                            1. Establish BLE (Bluetooth Low Energy) communication between Artemis board and a Python environment in Jupyter Lab.<br/>
+                                            2. Send commands from computer to the Artemis and receive data back from the board.
                                         </p>
 
-                                        
                                         <p>
                                             <strong>Prelab:</strong><br/>
-                                            Before starting, I made sure I understood the provided Python code (in <code>ble_python</code>), which uses <strong>ArduinoBLE</strong> on the Artemis side. I noted that message sizes are limited to <strong>150 bytes</strong>.
+                                            Before starting, I read through and understand the provided Python code (in <code>ble_python</code>), which uses <strong>ArduinoBLE</strong> on the Artemis side. I noted that message sizes are limited to <strong>150 bytes</strong>.
+                                        </p>
+
+                                        
+                                        <p>
+                                            <strong>Setup and Configuration:</strong>
+                                            After setting up the virtual environment in my file directory and install jupyter lab through pip, I was able to open the given <code>ble_robot_1.2</code> successfully. 
+                                        </p>
+
+                                        <img class="img-fluid w-75 d-block mx-auto mt-2" src="assets/img/portfolio/Jupyter1.png" alt="...">
+                                        <img class="img-fluid w-75 d-block mx-auto mt-2" src="assets/img/portfolio/Jupyter2.png" alt="...">
+                                        <img class="img-fluid w-75 d-block mx-auto mt-2" src="assets/img/portfolio/Jupyter3.png" alt="...">
+                                        <img class="img-fluid w-75 d-block mx-auto mt-2" src="assets/img/portfolio/Jupyter4.png" alt="...">
+                                        <br>
+
+                                        <p>
+                                            To set up BLE connection with the Artemis, I retrieved my Artemis’s MAC Address from the serial output, updated connections.yaml, and generated a new UUID to prevent conflicts. 
                                         </p>
 
 
+                                        <br>
+
                                         <p>
-                                            <strong>Setup and Configuration:</strong><br/>
+                                            After updating <code>UUIDs</code> in <code>ble_arduino.ino</code> and <code>ble_serice</code> ID in <code>connections.yaml</code>, changing the <code>elif</code> condition in <code>base_ble.py</code> line 69, I successfully connected to the Artemis board through bluetooth.
+                                        </p>
+
+
+                                        
+                                        <p>
+                                            <strong>Tasks:</strong>
                                         </p>
 
                                         <ol>
-                                            <li>I obtained my Artemis’s MAC Address by checking the serial output upon board startup and updated <code>connections.yaml</code>.</li>
-                                            <li>I generated a new UUID to avoid collisions with classmates' boards and replaced it in both <code>ble_arduino.ino</code> and <code>connections.yaml</code>.</li>
-                                            <li>I updated platform-specific settings as needed (e.g., if on Windows or Linux, set <code>elif True:</code> in <code>base_ble.py</code> if instructed).</li>
-                                            <li>I uploaded the BLE sketch and confirmed that my Artemis board was advertising correctly.</li>
+                                            <li><strong>Test Basic BLE Communication:</strong> Verified that sending a <code>PING</code> command resulted in a <code>PONG</code> response.</li>
+                                            <li><strong>ECHO Command:</strong> Sent the string “HiHello” and confirmed I received “Robot says → HiHello :)”.</li>
+                                            <li><strong>SEND_THREE_FLOATS:</strong> Sent three floats (e.g., 1.23, 4.56, 7.89) and checked the Arduino’s serial output to confirm the correct values.</li>
+                                            <li><strong>GET_TIME_MILLIS:</strong> Requested <code>millis()</code> from my board and saw “T:xxxxxx” in my Python callback.</li>
+                                            <li><strong>Loop for 1s:</strong> Measured how frequently I could receive messages. This helped me estimate the data rate in messages per second or bytes per second.</li>
+                                            <li><strong>Store Timestamps in an Array:</strong> Added <code>unsigned long timestamps[1000];</code> to collect data points, then used <code>SEND_TIME_DATA</code> to transmit them in bulk.</li>
+                                            <li><strong>Store Timestamps and Temperature:</strong> Similarly, created parallel arrays for time and temperature, then used <code>GET_TEMP_READINGS</code> to send them to Python. I parsed these into lists and verified the results.</li>
+                                            <li><strong>Discussion of Two Methods:</strong> </li>
                                         </ol>
-                                        
-                                        
-                                        <p>
-                                            <strong>Tasks:</strong><br/>
-                                        </p>
-
-                                        <ol>
-                                            <li><strong>Test Basic BLE Communication:</strong> I verified that sending a <code>PING</code> command resulted in a <code>PONG</code> response.</li>
-                                            <li><strong>ECHO Command:</strong> I sent the string “HiHello” and confirmed I received “Robot says → HiHello :)”.</li>
-                                            <li><strong>SEND_THREE_FLOATS:</strong> I sent three floats (e.g., 1.23, 4.56, 7.89) and checked the Arduino’s serial output to confirm the correct values.</li>
-                                            <li><strong>GET_TIME_MILLIS:</strong> I requested <code>millis()</code> from my board and saw “T:xxxxxx” in my Python callback.</li>
-                                            <li><strong>Loop for 1s:</strong> I measured how frequently I could receive messages. This helped me estimate the data rate in messages per second or bytes per second.</li>
-                                            <li><strong>Store Timestamps in an Array:</strong> I added <code>unsigned long timestamps[1000];</code> to collect data points, then used <code>SEND_TIME_DATA</code> to transmit them in bulk.</li>
-                                            <li><strong>Store Timestamps and Temperature:</strong> Similarly, I created parallel arrays for time and temperature, then used <code>GET_TEMP_READINGS</code> to send them to Python. I parsed these into lists and verified the results.</li>
-                                            <li><strong>Discussion of Two Methods:</strong> I compared streaming data in real time (each sample sent immediately) versus bulk transfer (storing an array then sending all data at once).</li>
-                                        </ol>
-
-                                        <p><em>(Here I would insert any relevant code snippets, callback functions, and screenshots/videos demonstrating my BLE setup in action.)</em></p>
 
                                         <br>
 
