@@ -615,7 +615,7 @@
                                             This <strong>non-blocking</strong> design eliminates explicit data wait times, allowing the loop to continuously check <code>myICM.dataReady</code> and <code>IMUDataReady</code>. This approach <strong>doubles 
                                             the loop's speed</strong> compared to the IMU's processing rate.
                                         </p>
-                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/BLE_data_loop_rate.png" alt="...">
+                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/BLE_data_loop_rate.png" alt="...">
                                         <p>
                                             Data is stored in a <strong>2500 x 10 2D array</strong> (<code>imu_data1</code>), consolidating timestamps, accelerometer, gyroscope, and complementary <code>Pitch</code>/<code>Roll</code> data. If data 
                                             collection ends before the array is full, a <code>for</code> loop transmits all entries via BLE. When data exceeds the array's capacity, a circular buffer overwrites the oldest data after transmission, 
@@ -625,7 +625,7 @@
                                             After connected the <code>Artemis board</code> and <code>IMU sensor</code> via <code></code>BLE, we successfully requested <strong>10s</strong> (within <code>imu_data1</code> data size) and <strong>20s</strong> 
                                             (within <code>imu_data1</code> data size) of IMU data and printed them on Jupyter Lab using the <code>notif_handler</code> implemented in Lab1:   
                                         </p>
-                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/BLE_data_10s_20s.png" alt="...">
+                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/BLE_data_10s_20s.png" alt="...">
                                         <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/BLE_data_10s_20s_print.png" alt="...">
                                         <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/BLE_data_10s_20s_print1.png" alt="...">
                                         <p>
@@ -640,7 +640,7 @@
                                         <h5>Record a stunt</h5>
                                         <p>
                                             In the final part of the lab, we mounted the battery onto the RC car, spent about five minutes manually controlling the car in an open hallway to observe its performance. The car exhibited strong acceleration with a 
-                                            slight delay in braking response. It handled turns responsively, although sharp turns at high speeds occasionally led to oversteering. 
+                                            slight delay in braking response. It handled turns responsively, although sharp turns or braking at high speeds often led to oversteering. 
                                         </p>
                                         <video width="400" controls class="d-block mx-auto mt-2">
                                             <source src="assets/img/portfolio/RCstunt.mp4" type="video/mp4">
