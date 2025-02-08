@@ -568,20 +568,19 @@
                                         <br>
 
                                         <p>
-                                            To filter out noise, we analyzed the frequency spectrum of the data using the Fast Fourier Transform (FFT). I use <code>Serial.print()</code> to output accelerometer raw 
-                                            data on the arudino serial plottorm, then convert them into <code>.csv</code> file to be analysis by the Python script. This analysis helped identify the dominant frequencies, allowing us to 
+                                            To filter out noise, we analyzed the frequency spectrum of the data using the Fast Fourier Transform (FFT). I stored the accelerometer data into array and outputed the raw 
+                                            data over through BLE, then collect them into array on my laptop to be analysis in Jupyter Lab. This analysis helped identify the dominant frequencies, allowing us to 
                                             determine an appropriate cutoff frequency for a low-pass filter.
                                         </p>
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/FFT.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/accel_data_collect_code.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/accel_fft.png" alt="...">
                                         <p>
-                                            we observed that the accelerometer readings were close to zero, as expected, but accompanied by some noise. We selected a cutoff frequency of <strong>5Hz</strong>, 
+                                            we observed that the accelerometer readings were close to zero, as expected, but accompanied by some noise. We selected a cutoff frequency of <strong>10Hz</strong>, 
                                             and implemented a low-pass filter to suppress high-frequency noise, with the alpha constant calculated using the formula <strong>alpha = dt / (RC + dt)</strong>, 
-                                            where <strong>RC = 1 / (2 * π * cutoff frequency)</strong>. The final <strong>alpha = 0.187</strong>. We plotted both the original and filtered accelerometer data 
+                                            where <strong>RC = 1 / (2 * π * cutoff frequency)</strong>. The final <strong>alpha = 0.213</strong>. We plotted both the original and filtered accelerometer data 
                                             to compare their performance. The filtered signal showed reduced noise and more stable readings, especially under vibrational disturbances. 
                                         </p>
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/FFT_LPF.png" alt="...">
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Pitch_LPF.png" alt="...">
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Roll_LPF.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/accel_fft_lpf.png" alt="...">
                                         <br>
 
                                         
@@ -593,17 +592,15 @@
                                             value to generate accurate sensor readings.
                                         </p>
                                         <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/gyro_code.png" alt="...">
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Pitch_gyro.png" alt="...">
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Roll_gyro.png" alt="...">
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Yaw_gyro.png" alt="...">
+                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/gyro_data_plot.png" alt="...">
                                         <br>
 
                                         <p>
                                             <strong>Complementary Filter:</strong><br/>
-                                            By applying a complementary filter with a <strong>coefficient of 0.1</strong> and combining the accelerometer and gyroscope readings, accurate <code>roll</code> and <code>pitch</code> angles were calculated, 
+                                            By applying a complementary filter with a <strong>coefficient of 0.35</strong> and combining the accelerometer and gyroscope readings, accurate <code>roll</code> and <code>pitch</code> angles were calculated, 
                                             as shown below. The integration of sensor fusion with the filter significantly enhances the <strong>stability</strong> of the sensor. The results and practical application of this fusion are presented as follows:
                                         </p>
-                                        <img class="img-fluid rounded mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Compl_filter.png" alt="...">
+                                        <img class="img-fluid rounded w-75mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/Compl_pitch_roll.png" alt="...">
                                         <br>
 
                                         
