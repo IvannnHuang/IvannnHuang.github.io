@@ -589,7 +589,7 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/IMU.png" alt="..." />
+                                    <img class="img-fluid rounded mb-5  w-25" src="assets/img/portfolio/IMU.png" alt="..." />
                                     <!-- Portfolio Modal - Text (Lab Writeup)-->
                                     <div class="text-start">
                                         <h5>Objective</h5>
@@ -748,7 +748,7 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/TF.png" alt="..." />
+                                    <img class="img-fluid rounded mb-5  w-25" src="assets/img/portfolio/TF.png" alt="..." />
                                     <!-- Portfolio Modal - Text (Lab Writeup)-->
                                     <div class="text-start">
                                         <h5>Objective</h5>
@@ -904,13 +904,15 @@
         <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" aria-labelledby="portfolioModal4" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body text-center pb-5">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Controller</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 4<h3 class="text-warning">Motor Driver and Open Loop Control</h3></h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -918,10 +920,341 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/game.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
-                                    <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <img class="img-fluid rounded mb-5 w-25" src="assets/img/portfolio/Motor.png" alt="..." />
+                                    <!-- Portfolio Modal - Text (Lab Writeup)-->
+                                    <div class="text-start">
+                                        <h5>Objective</h5>
+                                        <p>
+                                            This lab focuses on transitioning from manual to open-loop control of a car using the SparkFun RedBoard Artemis Nano and two dual motor drivers. The objective is to program the car 
+                                            to execute a predefined set of movements, demonstrating an understanding of PWM signal generation, motor driver control, and power management.
+                                        </p>
+                                        <br>
+
+                                        <h5>Materials</h5>
+                                        <ul>
+                                            <li>1 x SparkFun RedBoard Artemis Nano</li>
+                                            <li>1 x USB cable</li>
+                                            <li>2 x 4m ToF sensors</li>
+                                            <li>1 x 9DOF IMU sensor</li>
+                                            <li>1 x QWIIC Breakout board</li>
+                                            <li>3 x Qwiic connectors</li>
+                                            <li>1 x JST2 connector+cable</li>
+                                            <li>1 x Force1 RC car</li>
+                                            <li>1 x Li-Ion 3.7V 850mAh battery</li>
+                                            <li>2 x Dual motor drivers</li>
+                                            <li>1 x Wire strippers/ Mini cutters</li>
+                                            <li>1 x Soldering iron</li>
+                                            <li>1 x External power supply</li>
+                                            <li>1 x Oscilloscope</li>
+                                        </ul>
+                                        <br>
+
+                                        <h5>Motor Driver and Battery Setup</h5>
+                                        <p>
+                                            To ensure operational stability, the Artemis board and the motor drivers are powered by separate batteries. This separation is crucial to:
+                                        </p>
+                                        <ul>
+                                            <li>Protect the microcontroller from electrical noise generated by the motors.</li>
+                                            <li>Maintain stable power delivery to both components.</li>
+                                            <li>Reduce interference that can affect signal integrity and motor performance.</li>
+                                        </ul>
+                                        <p>
+                                            From the Artemis pinout diagram, PWM-enabled pins (denoted by ‘~’) were selected for motor control:
+                                        </p>
+                                        <ul>
+                                            <li>Motor Driver Left: Pin 3 (AB1IN_LEFT), Pin 14 (AB2IN_LEFT)</li>
+                                            <li>Motor Driver Right: Pin 16 (AB1IN_RIGHT), Pin 15 (AB2IN_RIGHT)</li>
+                                            <li>Separate power supplies for Artemis and motor drivers ensure smooth operation.</li>
+                                        </ul>
+                                        <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/artemis_pin.png" alt="...">
+                                        <p>
+                                            A diagram of the wiring layout is provided below:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/motor_drive_connection.png" alt="...">
+                                        <br>
+
+                                        <h5>Lab Tasks</h5>
+                                        <p>
+                                            <strong>i. Motor Driver Tests</strong>
+                                            <p>
+                                            To test a single motor driver, the Artemis is connected to the motor driver, with the motor driver powered using an external power supply set to 3.7V. The Artemis is powered through USB
+                                        </p></p>
+                                        <p>
+                                            Power Supply Settings: 
+                                            <ul>
+                                                <li>Motor Driver VIN & GND: Connected to 3.7V power supply.</li>
+                                                <li>Artemis: Powered via USB-C.</li>
+                                                <li>Oscilloscope Measurements: Confirm PWM signal output.</li>
+                                            </ul>
+                                        </p>
+                                        <div class="d-flex justify-content-center mt-2">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/power_supply.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/power_supply_connection.png" alt="...">
+                                        </div>
+                                        <p>
+                                            With the setup complete, the motor control pin on the Artemis can be initialized using the following commands: analogWrite(AB1IN_LEFT, 63); analogWrite(AB2IN_LEFT, 0);Here, AB1IN_LEFT and 
+                                            AB2IN_LEFT are defined as pins 13 and A14, respectively. The value 63 corresponds to a 25% duty cycle, producing the oscilloscope waveform shown on the left. Later, the duty cycle is increased 
+                                            to 75% by setting the value to 127. Before testing with the oscilloscope, I soldered a wire to the DC motor, which introduced a slight distortion in the waveform. This distortion, likely caused 
+                                            by the motor's motion, prevented the signal from appearing completely flat when high.
+                                        </p>
+                                        <p>
+                                            Code for One Motor Testing
+                                        </p>
+                                        <pre>
+    #define AB1IN_LEFT 3
+    #define AB2IN_LEFT 14
+    #define dc 60
+    void setup() {
+        pinMode(AB1IN_LEFT, OUTPUT);
+        pinMode(AB2IN_LEFT, OUTPUT);
+    }
+    void loop() {
+        analogWrite(AB1IN_LEFT, dc);
+        analogWrite(AB2IN_LEFT, 0);
+    }
+                                        </pre>
+                                        <div class="d-flex justify-content-center mt-2">
+                                            <img class="img-fluid rounded w-50 mx-2" src="assets/img/portfolio/waveform1.jpg" alt="...">
+                                            <img class="img-fluid rounded w-50 mx-2" src="assets/img/portfolio/waveform2.jpg" alt="...">
+                                        </div>
+                                        <br>
+                                        <p>
+                                            Therefore, one motor spinning is shown in this video below:
+                                        </p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/wheel_one_side_turning.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+
+                                        <p>
+                                            <strong>ii. Wheels Spinning Test</strong>
+                                            <p>
+                                                After confirming PWM signal generation, the next step was running a motor with the power supply.
+                                            </p>
+                                        </p>
+                                        <p>
+                                            Code for Two Motor Testing
+                                        </p>
+                                        <pre>
+    #define AB1IN_LEFT 3
+    #define AB2IN_LEFT 14
+    #define AB1IN_RIGHT 16
+    #define AB2IN_RIGHT 15
+    #define dc 60
+    void setup() {
+        pinMode(AB1IN_LEFT, OUTPUT);
+        pinMode(AB2IN_LEFT, OUTPUT);
+        pinMode(AB1IN_RIGHT, OUTPUT);
+        pinMode(AB2IN_RIGHT, OUTPUT);
+    }
+    void forward() {
+        analogWrite(AB1IN_LEFT, dc);
+        analogWrite(AB2IN_LEFT, 0);
+        analogWrite(AB1IN_RIGHT, dc);
+        analogWrite(AB2IN_RIGHT, 0);
+    }
+    void loop() {
+        forward();
+        delay(2000);
+    }
+                                        </pre>
+                                        <p>
+                                            Hence, we can get two motors working properly.
+                                        </p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/power_supply_power_wheelturn.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+
+                                        <p>
+                                            <strong>iii. Connection Diagram</strong>
+                                            <p>        
+                                                After testing the motor drivers and power supply, we finalized the connection diagram, as shown in the figure. The setup includes two TOF sensors—one positioned at the front and the other on the side—and an IMU placed on top of the battery box
+                                                of the robot. Additionally, I used glue gun to organize and secure the cables and componenet for a cleaner and stable arrangement.
+                                            </p>
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/car_latyout.JPG" alt="...">
+                                        <br>
+
+                                        <p>
+                                            <strong>iv. Two Motors Powered by Batteries</strong>
+                                            <p>        
+                                                With all components assembled and soldered, the motors were powered by the two 3.7V batteries. A video demonstrating proper operation is provided.
+                                            </p>
+                                        </p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/battery_power_wheelturn.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+
+                                        <p>
+                                            <strong>v. Lower Limit PWM Value</strong>
+                                            <p>
+                                            The lowest PWM value required to move the car was determined to be 26.                                            
+                                            </p>
+                                        </p>
+                                        <pre>
+    #define AB1IN_LEFT 3
+    #define AB2IN_LEFT 14
+    #define AB1IN_RIGHT 16
+    #define AB2IN_RIGHT 15
+    #define dc 26
+    void setup() {
+        pinMode(AB1IN_LEFT, OUTPUT);
+        pinMode(AB2IN_LEFT, OUTPUT);
+        pinMode(AB1IN_RIGHT, OUTPUT);
+        pinMode(AB2IN_RIGHT, OUTPUT);
+    }
+    void forward() {
+        analogWrite(AB1IN_LEFT, dc);
+        analogWrite(AB2IN_LEFT, 0);
+        analogWrite(AB1IN_RIGHT, dc);
+        analogWrite(AB2IN_RIGHT, 0);
+    }
+    void loop() {
+        forward();
+        delay(2000);
+    }
+                                        </pre>
+                                        <p>
+                                            This video demonstrate the motion of the robot with lower PWM value.
+                                        </p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/slow_pwm_car.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+
+                                        <p>
+                                            <strong>vi. Calibration for Straight-Line Motion</strong>
+                                            <p>
+                                                We observed that the two are turning at a different rate, it is because the pressure applied by the upper level motor to the lower level is cause the wheel axial to have friction contact with the car frame, causing lower turning speed. 
+                                                The upper level motor gear box is also pressing the lower level motor wires connection causing inefficient power transimission. Due to variations in motor performance, we added a calibration factor of 1.5 was applied on the right motor 
+                                                to ensure straight-line movement.
+                                            </p>
+                                        <pre>
+    #define AB1IN_LEFT 3
+    #define AB2IN_LEFT 14
+    #define AB1IN_RIGHT 16
+    #define AB2IN_RIGHT 15
+    #define dc 60
+    #define dc_dif 1.5
+    void setup() {
+        pinMode(AB1IN_LEFT, OUTPUT);
+        pinMode(AB2IN_LEFT, OUTPUT);
+        pinMode(AB1IN_RIGHT, OUTPUT);
+        pinMode(AB2IN_RIGHT, OUTPUT);
+    }
+    void forward() {
+        analogWrite(AB1IN_LEFT, dc);
+        analogWrite(AB2IN_LEFT, 0);
+        analogWrite(AB1IN_RIGHT, dc*dc_dif);
+        analogWrite(AB2IN_RIGHT, 0);
+    }
+    void loop() {
+        forward();
+        delay(2000);
+    }
+                                        </pre>
+                                        <br>
+                                        <p>
+                                            It can be concluded in the video that the robot can move almost in a straight line with the implementation of the calibration factor.
+                                        </p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/car_move_straight.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+
+                                        <p>
+                                            <strong>vii. Open Loop Control</strong>
+                                            <p>
+                                                A sequence of movement commands was implemented. The car will move forward for 2 sec, next turn left for 2 second, then move backward for 2 second, and finally turn right for 2 second.
+                                            </p>
+                                        <pre>
+    #define AB1IN_LEFT 3
+    #define AB2IN_LEFT 14
+    #define AB1IN_RIGHT 16
+    #define AB2IN_RIGHT 15
+    #define dc 60
+    #define dc_dif 1.5
+    void setup() {
+        pinMode(AB1IN_LEFT, OUTPUT);
+        pinMode(AB2IN_LEFT, OUTPUT);
+        pinMode(AB1IN_RIGHT, OUTPUT);
+        pinMode(AB2IN_RIGHT, OUTPUT);
+    }
+    void backward() {
+        analogWrite(AB1IN_LEFT, dc);
+        analogWrite(AB2IN_LEFT, 0);
+        analogWrite(AB1IN_RIGHT, dc*dc_dif);
+        analogWrite(AB2IN_RIGHT, 0);
+    }
+    void forward() {
+        analogWrite(AB1IN_LEFT, 0);
+        analogWrite(AB2IN_LEFT, dc);
+        analogWrite(AB1IN_RIGHT, 0);
+        analogWrite(AB2IN_RIGHT, dc*dc_dif);
+    }
+    void turn_left(int speed) {
+        analogWrite(AB1IN_LEFT, 0);
+        analogWrite(AB2IN_LEFT, 0);
+        analogWrite(AB1IN_RIGHT, 0);
+        analogWrite(AB2IN_RIGHT, dc*dc_dif*speed);
+    }
+    void turn_left(int speed) {
+        analogWrite(AB1IN_LEFT, 0);
+        analogWrite(AB2IN_LEFT, dc*speed);
+        analogWrite(AB1IN_RIGHT, 0);
+        analogWrite(AB2IN_RIGHT, 0);
+    }
+    void pause() {
+        analogWrite(AB1IN_LEFT, 0);
+        analogWrite(AB2IN_LEFT, 0);
+        analogWrite(AB1IN_RIGHT, 0);
+        analogWrite(AB2IN_RIGHT, 0);
+    }
+    void loop() {
+        pasue();
+        delay(2000);
+        forward();
+        delay(2000);
+        pasue();
+        delay(2000);
+        turn_left(2);
+        delay(2000);
+        backward();
+        delay(2000);
+        turn_right(2);
+        delay(2000);
+        pause();
+        delay(2000);
+    }
+                                        </pre>
+                                        <p>
+                                            Therefore, we get the robot motion which is demonstrated in the following video.
+                                        </p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/car_open_loop.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+                                        <br>
+
+                                        <H5>Conclusion</H5>
+                                        <P>
+                                            This lab introduced the principles of motor control using PWM signals. The successful execution of open-loop commands demonstrated the ability to control movement through pre-programmed 
+                                            instructions. Challenges included noise interference from motor operation and calibration for straight-line motion. Future work could involve implementing closed-loop feedback for improved 
+                                            accuracy and efficiency.
+                                        </P>
+                                        <br>
+
+                                    </div>
+                                    <!-- Close Button-->
+                                    <button class="btn btn-primary mt-4" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
                                     </button>
