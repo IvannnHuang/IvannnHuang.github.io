@@ -163,7 +163,7 @@
                             </div>
                             
                             <!-- Centered Image -->
-                            <img class="img-fluid w-75" src="assets/img/portfolio/safe.png" 
+                            <img class="img-fluid w-75" src="assets/img/portfolio/pid.png" 
                                  alt="..." style="max-width: 80%; max-height: 70%; object-fit: contain; display: block; margin: 0 auto;">
                             
                             <!-- Bold, Centered Text Below Image -->
@@ -1265,17 +1265,20 @@
                 </div>
             </div>
         </div>
+
         <!-- Portfolio Modal 5-->
         <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" aria-labelledby="portfolioModal5" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body text-center pb-5">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Locked Safe</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 4<h3 class="text-warning">Linear PID control and Linear interpolation</h3></h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1283,10 +1286,160 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/safe.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
-                                    <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <img class="img-fluid rounded mb-5 w-50" src="assets/img/portfolio/pid.png" alt="..." />
+                                    <!-- Portfolio Modal - Text (Lab Writeup)-->
+                                    <div class="text-start">
+                                        <h5>Introduction</h5>
+                                        <p>
+                                            In this lab, a PID control system was implemented to regulate the robot’s movement based on <strong>Time-of-Flight (ToF) sensor</strong>    
+                                            data. The primary objective was to control the robot’s approach towards a wall and stop precisely <strong>1 ft (304mm) away</strong>, while minimizing overshoot and accounting for changing conditions such as varying start distances and floor surfaces.
+                                            <p>To achieve this, <strong>Bluetooth</strong> Low Energy (BLE) communication was used to send and receive debugging data, allowing real-time analysis of the PID parameters and system performance.</p>
+                                        </p>
+                                        <br>
+
+                                        <h5>Materials</h5>
+                                        <ul>
+                                            <li>1 x Assembled Robot (Artemis board, IMU, ToF sensors, motor drivers)</li>
+                                            <li>1 x USB cable</li>
+                                            <li>2 x Li-Ion 3.7V batteries</li>
+                                            <li>2 x 4m ToF sensors (VL53L1X)</li>
+                                            <li>1 x 9DOF IMU sensor</li>
+                                        </ul>
+                                        <br>
+
+                                        <h5>BLE Communication Setup</h5>
+                                        <p>
+                                            The system was designed to operate via BLE commands, allowing remote tuning of Kp, Ki, and Kd values. The following approach was implemented:
+                                        </p>
+                                        <p>
+                                            1. BLE Characteristics were defined for sending and receiving data:
+                                        </p>
+                                        <ul>
+                                            <li><code>rx_characteristic_string</code>: Receives PID control commands.</li>
+                                            <li><code>tx_characteristic_float</code>: Sends sensor readings.</li>
+                                            <li><code>tx_characteristic_string</code>: Sends debugging messages.</li>
+                                        </ul>
+                                        <p>
+                                            PID Control Activation via BLE: The PID control loop starts upon receiving the following command format:
+                                        </p>
+                                        <p><code>
+                                            ble.send_command(CMD.PID_POSITION_CONTROL, "Kp|Ki|Kd|TargetDistance")
+                                        </code></p>
+                                        <p>
+                                            For data Logging & Transmission, data from the ToF sensor, motor control inputs, and pid input were stored in 2D arrays, and it was transmitted to the computer for visualization after execution.
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_BLE.png" alt="...">
+                                        <br>
+
+                                        <h5>Lab Tasks</h5>
+                                        <p>
+                                            <p>
+                                                The PID control equation implemented was:
+                                            </p>
+                                        </p>
+                                        <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_equation.png" alt="...">
+                                        <p>
+                                            Where: 
+                                            <ul>
+                                                <li>e: Error (distance from target).</li>
+                                                <li>Kp: Proportional gain.</li>
+                                                <li>Ki: Integral gain (accumulates past error).</li>
+                                                <li>Kd: Derivative gain (anticipates future error).</li>
+                                            </ul>
+                                            The proportional gain, Kp, adjusts the control response based on the current error, which is the difference between the desired and actual values. A higher Kp increases the corrective action but may also cause instability or overshooting. 
+                                            <br>
+                                            The integral gain, Ki, accounts for accumulated past errors, enhancing the corrective action when errors persist over time. However, an excessive Ki can lead to overshooting or oscillations due to the slow decay of accumulated errors. 
+                                            <br>
+                                            The derivative gain, Kd, predicts future errors by analyzing the rate of change of the error. It acts as a damping mechanism to reduce overshooting and regulate the speed of corrections, though it can also amplify noise.
+                                            <br>
+
+                                            Implementation in Code:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_speed_code.png" alt="...">
+                                        <br>
+
+                                        <p>
+                                            <strong>Range&Sampling Discussion</strong>
+                                            <p>
+                                                Similar to my implementation in Lab3, the loop constantly check the ToF sensor data readiness and it only stores new data when the sensor is ready, stores old data when sensor not ready. This ensures a high loop rate without waiting for the sensor that has slow data collection rate.
+                                                The sensor releases new data evey 40 ms. While the PID control waiting for new sensor data, it will use the old data to compute for motor input at a really high rate about every 12 ms.
+                                            </p>
+                                        </p>
+                                        <p>
+                                            Using the similar array storing and transimission method implemented in Lab3, which is have a arrays size 2500 row, storing new data every row, starting sending data before overwrite with new data if the array is full, and send data after data collection if array is not full.
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_data_store_1.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_data_store_2.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_data_store_3.png" alt="...">
+                                        <br>
+                                        <br>
+
+                                        <h5>PID Tuning</h5>
+                                        <p>
+                                            At first, I used Kp=0.05, Ki=0.05, Kd=1, which led the robot to bump into the wall with a close initial displacement about 2 meter. With a very short distance for acceleration, the robot still run pretty fast and cannot stop itself from bumping into the wall, meaning that the Kp is too high 
+                                            for high acceleration and Kd is too small for slowing down too late. The robot also didn't backup after hit the wall, meaning the Ki is too small. Here is the ToF vs Time plot with Kp=0.05, Ki=0.05, Kd=1:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.05_.05_1.png" alt="...">
+                                        <p>
+                                            To slow down the robot at an eariler and have more backup when too close to obstacle, I increased the Ki and Kd to 0.13 and 1.5, while decreasing the Kp to 0.03. Here is the ToF vs Time plot: 
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_1.png" alt="...">
+                                        <p>
+                                            The updated PID constant results in a slow acceleration but still bump into the wall cause by the late deceleration, so I increase the Kd to 5, 10, 20, 50, and 100, which shows a trend of slowing down at an eariler time with bigger gap between the obstacle and robot, but it still got too close when initial displacement increases.
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_5.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_10.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_20.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_50.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_100_far.png" alt="...">
+                                        <br>
+                                        <p>
+                                            After many rounds of robot PID control tests with different K constant, I conclude that when placing robot at initial displacement of 2m, Kp=0.02, Ki=0.13, Kd=20 is good enough due to small distance for acceleration:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.03_.13_20_close.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/speed_.03_.13_20.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/k_.03_.13_20.png" alt="...">
+                                            <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                <source src="assets/img/portfolio/pid_.03_.13_20_2.mp4" type="video/mp4">
+                                            </video>
+                                            <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                <source src="assets/img/portfolio/pid_.03_.13_20_1.mp4" type="video/mp4">
+                                            </video>
+                                            <br>
+                                            However, when the robot initial placement is around or greater than 3 meter, the Kd of 20 is not enough. The testing result shows a Kp=0.02, Ki=0.13, Kd=200 with the max velocity of 60 will led the robot stop at exactly 1 ft when initial place about 4 and 5 meter away:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/tof_.02_.13_200.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/speed_.02_.13_200.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/k_.02_.13_200.png" alt="...">
+                                            <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                <source src="assets/img/portfolio/pid_.03_.13_100_1.mp4" type="video/mp4">
+                                            </video>
+                                            <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                <source src="assets/img/portfolio/pid_.03_.13_100_2.mp4" type="video/mp4">
+                                            </video>
+                                            <br>
+                                        </p>
+                                        <br>
+
+
+                                        <H5>Conclusion</H5>
+                                        <P>
+                                            This lab demonstrated <strong>real-time PID control</strong> for robotic motion using BLE and ToF sensors. The PID controller successfully adjusted motor speed based on ToF distance. Key takeaways include:
+                                            <ul>
+                                                <li>Sensor sampling rate affects PID loop performance.</li>
+                                                <li>Fine-tuning of PID gains:
+                                                    <ul>
+                                                        <li>Lower Kp → slower response to reduce acceleration rate to have better control for PID calculation.</li>
+                                                        <li>Higher Ki → More error accumulation for robot backup correction when too close to obstacle.</li>
+                                                        <li>Higher Kd → More damping to create better stability for eariler deceleration.</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            Future improvements include Kalman filtering (Lab 7) for more accurate sensor fusion.
+                                        </P>
+                                        <br>
+
+                                    </div>
+                                    <!-- Close Button-->
+                                    <button class="btn btn-primary mt-4" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
                                     </button>
@@ -1297,6 +1450,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Portfolio Modal 6-->
         <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" aria-labelledby="portfolioModal6" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -1329,6 +1483,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
