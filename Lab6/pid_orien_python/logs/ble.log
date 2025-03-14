@@ -561,3 +561,44 @@
 2025-03-13 17:47:52,050 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
 2025-03-13 17:47:56,769 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
 2025-03-13 17:50:19,385 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
+2025-03-14 10:37:03,101 | MainThread   | [DEBUG   ] | <module>            |: debug
+2025-03-14 10:37:03,101 | MainThread   | [INFO    ] | <module>            |: info
+2025-03-14 10:37:03,102 | MainThread   | [WARNING ] | <module>            |: warning
+2025-03-14 10:37:03,103 | MainThread   | [ERROR   ] | <module>            |: error
+2025-03-14 10:37:03,103 | MainThread   | [CRITICAL] | <module>            |: critical
+2025-03-14 10:37:04,876 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=13, micro=2, releaselevel='final', serial=0)
+2025-03-14 10:37:04,876 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2025-03-14 10:37:04,876 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 10:37:11,140 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 10:38:44,064 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
+2025-03-14 10:39:15,574 | MainThread   | [DEBUG   ] | <module>            |: debug
+2025-03-14 10:39:15,574 | MainThread   | [INFO    ] | <module>            |: info
+2025-03-14 10:39:15,575 | MainThread   | [WARNING ] | <module>            |: warning
+2025-03-14 10:39:15,576 | MainThread   | [ERROR   ] | <module>            |: error
+2025-03-14 10:39:15,576 | MainThread   | [CRITICAL] | <module>            |: critical
+2025-03-14 10:39:19,042 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=13, micro=2, releaselevel='final', serial=0)
+2025-03-14 10:39:19,042 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2025-03-14 10:39:19,042 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 10:39:22,857 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 10:44:44,386 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
+2025-03-14 10:45:15,863 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 10:45:24,842 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 10:47:29,409 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
+2025-03-14 10:47:30,754 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 10:47:40,744 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 10:56:50,247 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
+2025-03-14 10:56:51,407 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 10:57:00,868 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 10:58:51,075 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
+2025-03-14 10:59:13,645 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 10:59:17,490 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 11:12:44,633 | MainThread   | [DEBUG   ] | <module>            |: debug
+2025-03-14 11:12:44,633 | MainThread   | [INFO    ] | <module>            |: info
+2025-03-14 11:12:44,634 | MainThread   | [WARNING ] | <module>            |: warning
+2025-03-14 11:12:44,635 | MainThread   | [ERROR   ] | <module>            |: error
+2025-03-14 11:12:44,635 | MainThread   | [CRITICAL] | <module>            |: critical
+2025-03-14 11:12:45,982 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=13, micro=2, releaselevel='final', serial=0)
+2025-03-14 11:12:45,983 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2025-03-14 11:12:45,983 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
+2025-03-14 11:12:50,339 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-03-14 11:20:01,040 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
