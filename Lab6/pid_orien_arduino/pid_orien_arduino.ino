@@ -773,12 +773,12 @@ float pid_orient_imu() {
   err_d_orien = (err_orien - prev_err_orien) / dt;
   integral_err_orien = integral_err_orien + (err_orien * dt);
   // Wind-up protection
-  if (integral_err_orien > 500) {
-    integral_err_orien = 500;
-  }
-  else if (integral_err_orien < -500) {
-    integral_err_orien = -500;
-  }
+  // if (integral_err_orien > 500) {
+  //   integral_err_orien = 500;
+  // }
+  // else if (integral_err_orien < -500) {
+  //   integral_err_orien = -500;
+  // }
   // Calculate PWM signal
   pid_orien_speed = Kp_orien * err_orien + Ki_orien * integral_err_orien + Kd_orien * err_d_orien;
   if (pid_orien_speed > 0) {
@@ -856,17 +856,15 @@ void pid_orien_data_store() {
         tx_estring_value.append(double(pid_orien_data[pid_orien_data_index][6]));
         tx_characteristic_string.writeValue(tx_estring_value.c_str());
         pid_orien_data_count--;
-        Serial.println(pid_orien_data_index);
-        Serial.println(pid_orien_data[pid_orien_data_index]);
       }
 
-      pid_orien_data[pid_data_index][0] = millis();  // time
-      pid_orien_data[pid_data_index][1] = curr_angle;  // tof
-      pid_orien_data[pid_data_index][2] = pid_orien_speed;  // speed
-      pid_orien_data[pid_data_index][3] = err_orien;  // speed
-      pid_orien_data[pid_data_index][4] = Kp_orien * err_orien;
-      pid_orien_data[pid_data_index][5] = Ki_orien * integral_err_orien;
-      pid_orien_data[pid_data_index][6] = Kd_orien * err_d_orien;
+      pid_orien_data[pid_orien_data_index][0] = millis();  // time
+      pid_orien_data[pid_orien_data_index][1] = curr_angle;  // tof
+      pid_orien_data[pid_orien_data_index][2] = pid_orien_speed;  // speed
+      pid_orien_data[pid_orien_data_index][3] = err_orien;  // speed
+      pid_orien_data[pid_orien_data_index][4] = Kp_orien * err_orien;
+      pid_orien_data[pid_orien_data_index][5] = Ki_orien * integral_err_orien;
+      pid_orien_data[pid_orien_data_index][6] = Kd_orien * err_d_orien;
       pid_orien_data_index++;  // data array index move to next element
       pid_orienDataReady = true;
 
@@ -904,8 +902,6 @@ void pid_orien_data_store() {
       tx_estring_value.append(double(pid_orien_data[i][6]));
       tx_characteristic_string.writeValue(tx_estring_value.c_str());
       pid_orien_data_count--;
-      Serial.println(i);
-      Serial.println(pid_orien_data[i]);
     }
 
     Serial.print("pid #: ");
