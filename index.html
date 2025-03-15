@@ -184,7 +184,7 @@
                             </div>
                             
                             <!-- Centered Image -->
-                            <img class="img-fluid w-75" src="assets/img/portfolio/submarine.png" 
+                            <img class="img-fluid w-75" src="assets/img/portfolio/orien_pic.webp" 
                                  alt="..." style="max-width: 80%; max-height: 70%; object-fit: contain; display: block; margin: 0 auto;">
                             
                             <!-- Bold, Centered Text Below Image -->
@@ -1278,7 +1278,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 4<h3 class="text-warning">Linear PID control and Linear interpolation</h3></h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 5<h3 class="text-warning">Linear PID control and Linear interpolation</h3></h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1323,7 +1323,7 @@
                                             PID Control Activation via BLE: The PID control loop starts upon receiving the following command format:
                                         </p>
                                         <p><code>
-                                            ble.send_command(CMD.PID_POSITION_CONTROL, "Kp|Ki|Kd|TargetDistance")
+                                            ble.send_command(CMD.PID_POSITION_CONTROL, "maxTime|Kp|Ki|Kd|TargetDistance")
                                         </code></p>
                                         <p>
                                             For data Logging & Transmission, data from the ToF sensor, motor control inputs, and pid input were stored in 2D arrays, and it was transmitted to the computer for visualization after execution.
@@ -1455,13 +1455,15 @@
         <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" aria-labelledby="portfolioModal6" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body text-center pb-5">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Submarine</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 6<h3 class="text-warning">Orientation Control</h3></h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1469,10 +1471,173 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/submarine.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
-                                    <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <img class="img-fluid rounded mb-5 w-25" src="assets/img/portfolio/orien_pic.webp" alt="..." />
+                                    <!-- Portfolio Modal - Text (Lab Writeup)-->
+                                    <div class="text-start">
+                                        <h5>Introduction</h5>
+                                        <p>
+                                            This lab focuses on implementing a PID controller to control the yaw orientation of a robot using an IMU. Unlike Lab 5, which controlled distance using TOF sensors, this lab employs a gyroscope to estimate the robot's orientation. The goal is to achieve stable stationary orientation control through a differential drive system. Challenges include sensor bias, integration drift, derivative kick, and Bluetooth command handling</p>
+                                        </p>
+                                        <br>
+
+                                        <h5>Materials</h5>
+                                        <ul>
+                                            <li>1 x Assembled Robot (Artemis board, IMU, ToF sensors, motor drivers)</li>
+                                            <li>1 x USB cable</li>
+                                            <li>2 x Li-Ion 3.7V batteries</li>
+                                            <li>2 x 4m ToF sensors (VL53L1X)</li>
+                                            <li>1 x 9DOF IMU sensor</li>
+                                            <li>2 x Dual motor driver</li>
+                                        </ul>
+                                        <br>
+
+                                        <h5>BLE Communication Setup</h5>
+                                        <p>
+                                            To allow real-time tuning and monitoring, the PID controller was integrated with the Bluetooth communication system implemented in Lab5, allowing remote tuning of Kp, Ki, and Kd values. The following approach was implemented:
+                                        </p>
+                                        <p>
+                                            1. BLE Characteristics were defined for sending and receiving data:
+                                        </p>
+                                        <ul>
+                                            <li><code>rx_characteristic_string</code>: Receives PID control commands.</li>
+                                            <li><code>tx_characteristic_float</code>: Sends sensor readings.</li>
+                                            <li><code>tx_characteristic_string</code>: Sends debugging messages.</li>
+                                        </ul>
+                                        <p>
+                                            PID Control Activation via BLE: The PID control loop starts upon receiving the following command format:
+                                        </p>
+                                        <p><code>
+                                            ble.send_command(CMD.PID_OIREN_CONTROL, "maxTime|Kp|Ki|Kd|SetPoint")
+                                        </code></p>
+                                        <p>
+                                            Similar to my implementation in Lab3 and Lab5, the loop constantly check the IMU sensor data readiness and it only stores new data when the sensor is ready, stores old data when sensor not ready. This ensures a high loop rate without waiting for the sensor that has slow data collection rate.
+                                            The sensor releases new data evey 40 ms. 
+                                        </p>
+                                        <p>
+                                            While the PID control waiting for new sensor data, it will use the old data to compute for motor input at a really high rate about every 12 ms.
+                                            Using the similar array storing and transimission method implemented in Lab3, which is have a arrays size 2500 row, storing new data every row, starting sending data before overwrite with new data if the array is full, and send data after data collection if array is not full.
+                                        </p>
+                                        <p>C++ script for sending data from Artemis: </p>
+                                        <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_data_record.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_data_store.png" alt="...">
+                                        <p>Python script for receiving data from Artemis: </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_BLE.png" alt="...">
+                                        <br>
+
+                                        <h5>IMU Bias Compensation</h5>
+                                        <p>To ensure the IMU's accuracy over time, we should determine the gyroscope's bias parameter during the Artemis setup. After running the setup script, we obtained the gyroscope bias range from 0.6 to 0.9.
+                                        Implementation in code:</p>
+                                        <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_bias.png" alt="...">
+                                        <br>
+                                        <br>
+
+                                        <h5>Lab Tasks</h5>
+                                        <p>
+                                            <strong>PID Control Strategy</strong>
+                                            <p>
+                                                To stabilize orientation, a PID controller was implemented with tunable proportional, integral, and derivative gains:
+                                            </p>
+                                            <ul>
+                                                <li>e: Error (distance from target).</li>
+                                                <li>Proportional Gain (Kp): Reacts to the current error, adjusting motor speeds accordingly</li>
+                                                <li>Integral Gain (Ki): Compensates for accumulated past errors, reducing steady-state error.</li>
+                                                <li>Derivative Gain (Kd): Predicts future errors by evaluating the rate of error change, damping oscillations.</li>
+                                            </ul>
+                                        </p>
+                                        <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_equation.png" alt="...">
+                                        <p>
+                                            Before the PID orientation implementation, I first tested the PWM needed for robot turning cw and ccw, and obtain a minimum turning PWM signal of 100 with right motor requires 60% more PWM signal in order to turn with same speed as left motor.
+                                            Implementation in Code below:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/pid_pwm_orien.png" alt="...">
+                                        <br>
+                                        <br>
+
+                                        <h5>PID Tuning</h5>
+                                        <p>
+                                            At first, I used Kp=10, Ki=0.1, Kd=0, which led the robot to spin none stop, I first conclude that it is because the robot kp is too high leading high turning speed that misled the PID judgment:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/no_10_0.1_0_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/no_10_0.1_0_k.png" alt="...">
+                                        <p>
+                                            With Kp=0.5, Ki=0.1, Kd=0, the robot still spinning none stop, showing the robot has an rapidly accumulating integrated err, which overcontrol kp and ki. 
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/no_0.5_.1_0_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/no_0.5_0.1_0_k.png" alt="...">
+                                        <p>
+                                            To resolve that, I added in a limit for the maximum integrated err value, to keep the robot under control.
+                                        </p>
+                                        <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_wind_up.png" alt="...">
+                                        <p>
+                                           After adding the wind-up protection of 500 max integrated err, the robot was able to adjust its angle to the desired set point, but it will tweak with big movement around the set point, indicating the need to add in an Kd for stablization when reaching the setpoint.  
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_0_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_0_k.png" alt="...">
+                                        <p>
+                                            By keeping the Kp and Ki the same, adding Kd of 10, 50, and 100, the plot displays the reduction of tweaking around set point, but still cannot remove fully even with big Kd value. 
+                                        </p>
+                                        <p>Kp=5, Ki=0.05, Kd=10</p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_10_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_10_k.png" alt="...">
+                                        <p>Kp=5, Ki=0.05, Kd=50</p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_50_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_50_k.png" alt="...">
+                                        <p>Kp=5, Ki=0.05, Kd=100</p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_100_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_5_0.05_100_k.png" alt="...">
+                                        <p>
+                                            To further remove the tweaking around set point, I decreased Kp and Ki to reduce the effect of current err and integrated err on the PWM, which helps the robot to gain better control and stablilty around the desired angle.
+                                        </p>
+                                        <p>Kp=2, Ki=0.005, Kd=100</p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_2_0.005_100_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_2_0.005_100_k.png" alt="...">
+                                        <p>
+                                            To allow the robot to accurately adjust its angle (ex. -90 to 90 degree), I further increased the Kd value to capture the precise PWM control by actively checking its err derivate to prevent turning overshoot.
+                                        </p>
+                                        <p>Kp=2, Ki=0.005, Kd=200</p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_2_0.005_200_pwm.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_2_0.005_200_angle.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_2_0.005_200_k.png" alt="...">
+                                        <br>
+                                         
+                                        <p>
+                                            After many rounds of robot PID control tests with different K constant, I conclude that the best PID constant for orientation control with full battery state of charge is Kp=2, Ki=0.13, Kd=200:
+                                            However, when the robot battery state of charge being relatively low, the Kp need to increases to 5 in order for the robot to turn effectionly. Here is the video of robot adjusting its angle to desired set point when being move by force externally:
+                                            <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                <source src="assets/img/portfolio/orien_adjust.mp4" type="video/mp4">
+                                            </video>
+                                        </p>
+                                        <br>
+                                        <p>
+                                            I also wrote an python open loop script for the robot orientation control, telling it to turn to differe angle multiple time. The robot reacts with pretty accurate orientation control. Implemented in code:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/orien_control_loop.png" alt="...">
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/orien_loop.mp4" type="video/mp4">
+                                        </video>
+                                        <br>
+                                        <br>
+
+                                        <h5>Orien PID Discussion</h5>
+                                        <p>
+                                            <ul>
+                                            <li>Gyroscope drift was reduced by calculating bias at initialization.</li>
+                                            <li>Higher Kp led to faster corrections but increased oscillations.</li>
+                                            <li>Ki helped eliminate steady-state error but caused overshoot when too high.</li>
+                                            <li>Kd improved damping but required fine-tuning to avoid instability.</li>
+                                            </ul>
+                                        </p>
+                                        <br>
+
+                                        <H5>Conclusion</H5>
+                                        <P>
+                                            This lab successfully demonstrated stationary orientation control using a PID controller. Through parameter tuning, wind-up protection, and Bluetooth integration, a robust control system was implemented. The results highlight the importance of PID balance for achieving stability, accuracy, and responsiveness in robotic orientation control.
+                                        </P>
+                                        <br>
+
+                                    </div>
+                                    <!-- Close Button-->
+                                    <button class="btn btn-primary mt-4" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
                                     </button>
