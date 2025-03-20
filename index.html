@@ -192,6 +192,27 @@
                         </div>
                     </div>
 
+                    <!-- Portfolio Item 7-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto d-flex flex-column justify-content-center align-items-center p-3" 
+                             data-bs-toggle="modal" data-bs-target="#portfolioModal7"
+                             style="background-color: #BA4C63; border-radius: 10px; padding: 20px; text-align: center; height: 300px; width: 100%;">
+                            
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Centered Image -->
+                            <img class="img-fluid" src="assets/img/portfolio/kf.png" 
+                                 alt="..." style="max-width: 80%; max-height: 70%; object-fit: contain; display: block; margin: 0 auto;">
+                            
+                            <!-- Bold, Centered Text Below Image -->
+                            <p class="fw-bold mt-4 mb-2 text-center" style="color: white; font-size: 32px;">Lab 7</p>
+                        </div>
+                    </div>
+
 
 
                 </div>
@@ -1634,6 +1655,105 @@
                                             This lab successfully demonstrated stationary orientation control using a PID controller. Through parameter tuning, wind-up protection, and Bluetooth integration, a robust control system was implemented. The results highlight the importance of PID balance for achieving stability, accuracy, and responsiveness in robotic orientation control.
                                         </P>
                                         <br>
+
+                                    </div>
+                                    <!-- Close Button-->
+                                    <button class="btn btn-primary mt-4" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Modal 6-->
+        <div class="portfolio-modal modal fade" id="portfolioModal7" tabindex="-1" aria-labelledby="portfolioModal7" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 7<h3 class="text-warning">Kalman Filter</h3></h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5 w-50" src="assets/img/portfolio/kf.png" alt="..." />
+                                    <!-- Portfolio Modal - Text (Lab Writeup)-->
+                                    <div class="text-start">
+                                        <h5>Introduction</h5>
+                                        <p>
+                                            The objective of this lab is to implement a Kalman Filter (KF) to enhance the performance of distance estimation using Time-of-Flight (ToF) sensors. By incorporating the KF, the robot should be able to approach the wall at high speeds while accurately estimating its position to either stop 1 ft away or turn within 2 ft. The Kalman Filter is first tested in Jupyter Notebook and then integrated into the Artemis robot.
+                                        </p>
+                                        <br>
+
+                                        <h5>Materials</h5>
+                                        <ul>
+                                            <li>1 x Assembled Robot (Artemis board, IMU, ToF sensors, motor drivers)</li>
+                                            <li>1 x USB cable</li>
+                                            <li>2 x Li-Ion 3.7V batteries</li>
+                                            <li>2 x 4m ToF sensors (VL53L1X)</li>
+                                            <li>1 x 9DOF IMU sensor</li>
+                                            <li>2 x Dual motor driver</li>
+                                            <li>1 x Crash-pillows (for testing safely)</li>
+                                        </ul>
+                                        <br>
+
+                                        <h5>Lab Tasks</h5>
+                                        <p>
+                                            <strong>1. Estimate Drag and Momentum</strong>
+                                            <p>
+                                                To build the state-space model, the drag and momentum terms were estimated using a step response test. The robot was driven toward a wall at a constant PWM input while logging motor input values and ToF sensor readings. Using the data transmission function implemented for the PID control, I sent the collected ToF and time data through BLE. To produce a cleaner plot, I wrote function to filter the repeatitive ToF value and use the filtered value to calculate the robot velocity:
+                                            </p>
+                                            Data filtering:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_distance_code.png" alt="...">
+                                            Velocity Calculation:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_speed_code.png" alt="...">
+                                            Here is the resulting plot of ToF and Velocity vs time while the robot driving toward the wall:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_pwm.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_distance.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_speed.png" alt="...">
+                                            With the data plot I obtained for ToF and Velocity vs time, I concluded that the Steady-State Speed is ~750 mm/s and the 90% Rise Time is ~1 s. Thus, the drag and momentum parameters can be initialized as below.
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_d_m.png" alt="...">
+                                        </p>
+                                        <br>
+
+                                        <p>
+                                            <strong>2. Initialize Kalman Filter (Python Implementation)</strong>
+                                            After collecting the data and initializing the parameters, the Kalman Filter (KF) can be configured accordingly. 
+                                            The equations presented in the lecture slides define the Kalman Filter framework. To implement it, key parameters must be identified, including the state-space matrices A, B, and C, as well as the noise matrices σ_u and σ_z.
+                                            State-Space Matrices
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_lecture.png" alt="...">
+                                            The system state-space model is defined by matrices A, B, and C. Given the ToF sensor sampling rate is about 100ms determined in Lab3, so the system was discretized with ΔT=0.1s.
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_A_B_code.png" alt="...">
+                                            Hence, the A and B matrix can be obtain:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_A_B1.png" alt="...">
+                                            Next, the C matrix can be determined as an m × n matrix, where n represents the dimensions of the state space, and m corresponds to the number of measured states. In this case, the C matrix is [-1, 0], as the distance is measured from negative to zero as the robot approaches the wall. Additionally, the state vector X should be initialized as the first ToF data.
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_C_code.png" alt="...">
+                                            Furthermore, the process noise covariance (Σu) and sensor noise covariance (Σz) were initialized with rough estimates and later fine-tuned:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_sigma_code.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_sigma.png" alt="...">
+                                            Currently, the variance values are only rough estimates. They will be tested and adjusted later to determine the optimal values.
+                                        </p>
+                                        <br>
+
+                                        <p>
+                                            
+                                        </p>
+
+                                        
 
                                     </div>
                                     <!-- Close Button-->
