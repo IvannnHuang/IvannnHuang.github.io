@@ -1031,7 +1031,6 @@ void turn_right(int speed, float dif) {
 }
 
 // KF
-// KF Function
 void KF(float u, float y) {
   Matrix<1,1> u_mat={u};
   Matrix<2,1> mu_p = A_d*x + B_d*u_mat;

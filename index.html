@@ -1726,31 +1726,87 @@
                                             <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_distance.png" alt="...">
                                             <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_speed.png" alt="...">
                                             With the data plot I obtained for ToF and Velocity vs time, I concluded that the Steady-State Speed is ~750 mm/s and the 90% Rise Time is ~1 s. Thus, the drag and momentum parameters can be initialized as below.
-                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_d_m.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_d_m.png" alt="...">
                                         </p>
                                         <br>
 
                                         <p>
                                             <strong>2. Initialize Kalman Filter (Python Implementation)</strong>
+                                            <p>
                                             After collecting the data and initializing the parameters, the Kalman Filter (KF) can be configured accordingly. 
                                             The equations presented in the lecture slides define the Kalman Filter framework. To implement it, key parameters must be identified, including the state-space matrices A, B, and C, as well as the noise matrices σ_u and σ_z.
                                             State-Space Matrices
                                             <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_lecture.png" alt="...">
                                             The system state-space model is defined by matrices A, B, and C. Given the ToF sensor sampling rate is about 100ms determined in Lab3, so the system was discretized with ΔT=0.1s.
-                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_A_B_code.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_A_B_code.png" alt="...">
                                             Hence, the A and B matrix can be obtain:
-                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_A_B1.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_A_B1.png" alt="...">
                                             Next, the C matrix can be determined as an m × n matrix, where n represents the dimensions of the state space, and m corresponds to the number of measured states. In this case, the C matrix is [-1, 0], as the distance is measured from negative to zero as the robot approaches the wall. Additionally, the state vector X should be initialized as the first ToF data.
-                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_C_code.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_C_code.png" alt="...">
                                             Furthermore, the process noise covariance (Σu) and sensor noise covariance (Σz) were initialized with rough estimates and later fine-tuned:
                                             <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_sigma_code.png" alt="...">
-                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_sigma.png" alt="...">
+                                            <img class="img-fluid rounded w-25 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_sigma.png" alt="...">
                                             Currently, the variance values are only rough estimates. They will be tested and adjusted later to determine the optimal values.
+                                            </p>
                                         </p>
                                         <br>
 
                                         <p>
-                                            
+                                            <strong>3. Kalman Filter Function in Jupyter</strong>
+                                            <p>
+                                            The Kalman Filter function python implementation is given by the lab guide. After copying the code over to jupyter lab, I created an array, kf_data, to store the KF filter result.
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_function.png" alt="...">
+                                            With the initial state and covariance matrix declared as first ToF data and [5^2 0; 0 5^2], the collected ToF data was processed through the Kalman Filter to validate its performance and then plotted.  The Kalman Filter output was compared to raw ToF measurements:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_5_100_20.png" alt="...">
+                                            The first plot shows that a Σz of 400 makes the KF trusts sensor data less, leading it to lags more behind the actual sensor data and overly dependent on the process model. After tuning the Σz down to 100, the KF result fit more closely:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_5_100_10.png" alt="...">
+                                            The second plot shows that a low Σu of [1000 0; 0 1000] makes the KF too confident, leading some inaccurate prediction. The gap between the KF and real ToF data is much much smaller after increasing Σu to [4000 0; 0 4000]:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_5_200_10.png" alt="...">
+                                            The third plot still isn't perfect, by further increasing the Σu to [4000 0; 0 4000], we obtain the most fit KF result:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_5_400_10.png" alt="...">
+                                            Initially, the filter was too sensitive to sensor noise, requiring parameter adjustments. By tuning covariance matrices (Σu,Σz), a smoother estimate was obtained.
+                                            </p>
+                                        </p>
+                                        <br>
+
+                                        <p>
+                                            <strong>4. Kalman filter at a faster frequency</strong>
+                                            To increase the Kalman Filter's operating frequency, I modified the sampling rate. This results in a time step of 20ms when ΔT = 0.1/5. Between readings, the prediction step is used to estimate the car's state. While this step resembles the linear extrapolation method from Lab 6, it is specifically part of the Kalman Filter process.
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_fast1.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_fast2.png" alt="...">
+                                            Using the new delta_T of 0.02, I obtain the figure as below, which illustrates the diagram with decreasing delta_T:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_inter_mea.png" alt="...">
+                                        </p>
+                                        <br>
+
+                                        <p>
+                                            <strong>5. Implement Kalman Filter on Artemis</strong>
+                                            The Kalman Filter was then implemented in C++ on the Artemis microcontroller. I imported an new library <code>BasicLinearAlgebra.h</code> for matrix manipulation. 
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_library.png" alt="...">
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_matrix_declare.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_function_c.png" alt="...">
+                                            By running the PID ToF control using KF on the robot over BLE, we obtained 2 plot of robot distance with/without KF:
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_compare1.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_compare3.png" alt="...">
+                                            Both plot result shows the robot position itself closer to the targer distance (300mm) away from wall using KF, while the robot overshoot itself passed the target distance. This indicates the robot has a better control when equipped with KF in PID control. 
+                                        </p>
+                                        <br>
+
+                                        <h5>Discussion</h5>
+                                        <p>
+                                            The Kalman Filter significantly improved distance estimation by reducing noise and enabling the robot to react more accurately. Key insights include:
+                                            <ul>
+                                                <li>Proper tuning of process and measurement noise matrices was essential for stability.</li>
+                                                <li>Running the Kalman Filter at a higher frequency improved performance.</li>
+                                                <li>The filter successfully complemented the PID controller, allowing the robot to approach the wall safely at higher speeds.</li>
+                                                <li>Future work involves optimizing execution speed further and integrating the Kalman Filter with Lab 8's tasks.</li>
+                                            </ul>
+                                        </p>
+                                        <br>
+
+                                        <h5>Conclusion</h5>
+                                        <p>
+                                            The implementation of the Kalman Filter enabled faster and more reliable state estimation, allowing the robot to navigate with improved precision. Successful integration on the Artemis demonstrated its effectiveness in real-time control applications.
                                         </p>
 
                                         
