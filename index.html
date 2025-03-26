@@ -1857,7 +1857,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 8<h3 class="text-warning">Stunts!</h3></h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 8<h3 class="text-warning">Stunts! – Flip Challenge</h3></h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1870,7 +1870,7 @@
                                     <div class="text-start">
                                         <h5>Introduction</h5>
                                         <p>
-                                            The objective of this lab is to implement a Kalman Filter (KF) to enhance the performance of distance estimation using Time-of-Flight (ToF) sensors. By incorporating the KF, the robot should be able to approach the wall at high speeds while accurately estimating its position to either stop 1 ft away or turn within 2 ft. The Kalman Filter is first tested in Jupyter Notebook and then integrated into the Artemis robot.
+                                            The objective of this lab is to perform an autonomous robot stunt using the hardware and software framework built over the course of the semester. Specifically, we aim to execute a forward flip maneuver using speed and controlled braking, leveraging the onboard Time-of-Flight (ToF) sensor, motor controls, and Kalman Filter (KF) for fast and accurate distance estimation.
                                         </p>
                                         <br>
 
@@ -1888,13 +1888,68 @@
 
                                         <h5>Lab Tasks</h5>
                                         <p>
-                                            <strong>1. Estimate Drag and Momentum</strong>
+                                            <strong>1. Accurate ToF data with KF</strong>
                                             <p>
-                                                To build the state-space model, the drag and momentum terms were estimated using a step response test. The robot was driven toward a wall at a constant PWM input while logging motor input values and ToF sensor readings. Using the data transmission function implemented for the PID control, I sent the collected ToF and time data through BLE. To produce a cleaner plot, I wrote function to filter the repeatitive ToF value and use the filtered value to calculate the robot velocity:
+                                                For the flip stunt, I used the Kalman Filter developed in Lab 7 to accurately estimate the distance to the wall using the ToF sensor. This estimation runs at a higher effective frequency by combining sensor input and prediction modeling, which is critical for fast maneuvers where ToF readings alone may be too slow or noisy.
                                             </p>
-                                            Data filtering:
-                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/kf_distance_code.png" alt="...">
-                                            
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/stunt_kf.png" alt="...">
+                                        </p>
+                                        <br>
+                                        <p>
+                                            <strong>2. Stunt States and Logic</strong>
+                                            <p>
+                                                I implemented a function kf_position_tof() that controls the stunt behavior based on the robot's distance from the wall. The robot proceeds through three states:
+                                                <ul>
+                                                    <li><strong>State 1 – Forward Acceleration:</strong> The robot starts from rest and accelerates forward at high speed. KF continuously estimates the position using motor input and ToF readings. Sometimes, the robot may fail to detect the distance correctly and continue moving indefinitely. To prevent this, I added a timeout condition that forces the robot to stop if it remains in this state for more than a couple second (input from jupyter lab). State 1 also record the start time of the flip for timing the flip.</li>
+                                                    <li><strong>State 2 – Flip Trigger:</strong> Once within ±100mm of the target flip distance (~300m input from jupyter lab), the robot reverses motor direction at max speed to produce an abrupt deceleration. This generates a torque that causes the robot to pitch forward and flip. The time of reaching state 2 is also record to obtain time from start to flip.</li>
+                                                    <li><strong>State 3 – Timed Backward Stop:</strong> After flipping, the robot drives backward for the time difference between start and flip before stopping, approximating a return to the starting region.</li>
+                                                </ul>
+                                            </p>
+                                            <img class="img-fluid rounded w-50 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/stunt_control.png" alt="...">
+                                        </p>
+                                        <p>
+                                            <strong>3. Jupyter lab control</strong>
+                                            <p>
+                                                By using the similar BLE setup on the Artemis, I was able to control robot to perform stunt remotely using jupyterlab and BLE by sending command:
+                                            </p>
+                                            <img class="img-fluid rounded w-100 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/stunt_jupyter.png" alt="...">
+                                        </p>
+                                        <br>
+                                        <p>
+                                            <strong>3. Stunt recording</strong>
+                                            <p>
+                                                Below is three successful stunts of the robot flip and one really cool stunts the robot accidentally made:
+                                                <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                    <source src="assets/img/portfolio/stunt1.mp4" type="video/mp4">
+                                                </video>
+                                                <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                    <source src="assets/img/portfolio/stunt2.mp4" type="video/mp4">
+                                                </video>
+                                                <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                    <source src="assets/img/portfolio/stunt3.mp4" type="video/mp4">
+                                                </video>
+                                                <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                                    <source src="assets/img/portfolio/stunt_cool.mp4" type="video/mp4">
+                                                </video>
+                                            </p>
+                                            <p>
+                                                To collect flip data, I created a SENDING_FLIP_DATA case to transmit the recorded values from the Artemis to the laptop via the BLE channel. The motor commands indicate that the robot initiates the flip maneuver when it is within 1/2 second of the target wall distance.
+                                                Using the same data transfer method as in previous labs, I sent arrays of ToF and PWM data from the Artemis to Jupyter Lab and plotted them over time.                                            
+                                            </p>
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/stunt_plot1.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/stunt_plot2.png" alt="...">
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/stunt_plot3.png" alt="...">
+                                            <p>
+                                                From the graph, we can see that the robot began its stunt approximately 2 meters away from the wall and initiated the flip roughly 5–10 cm from the wall. After the flip, it moved backward. The ToF readings during the reverse motion are less accurate due to the sensor being mounted at a slight downward angle. This positioning caused the sensor to occasionally capture reflections from the ground instead of directly ahead. The sudden spikes in distance readings correspond to moments when the robot flips and the front wheels briefly lift off the ground, allowing the sensor to momentarily detect a farther range before settling back.
+                                            </p>
+                                        </p>
+                                        <br>
+
+                                        <h5>Conclusion</h5>
+                                        <p>
+                                            This lab successfully brought together core components—sensors, estimation, and control logic—to execute a fast and dramatic stunt. The forward flip was achieved using a combination of speed, precise triggering, and timed reversal. The KF-based localization greatly improved reliability, allowing consistent performance across multiple runs. While tuning the flip distance was tricky due to slight variation in sensor readings and sticky mat placement, once dialed in, the stunt proved repeatable and robust.
+                                        </p>
+                                        
 
                                     </div>
                                     <!-- Close Button-->
