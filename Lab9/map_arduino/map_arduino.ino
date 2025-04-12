@@ -1544,7 +1544,7 @@ void map_data_store() {
       map_data_index++;  // data array index move to next element
       mapDataReady = true;
 
-      if (map_data_index >= NUM_SAMPLES) {  // if last element is stored, indicate full and use array2
+      if (map_data_index >= NUM_SAMPLES) {  
           map_data_full = true;
           map_data_index = 0;
       }
