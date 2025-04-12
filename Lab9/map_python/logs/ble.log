@@ -487,3 +487,8 @@
 2025-04-11 17:30:12,597 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:C3:E4:25:23:51
 2025-04-11 17:30:33,384 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:c3:e4:25:23:51
 2025-04-11 17:30:38,728 | MainThread   | [INFO    ] | _connect            |: Connected to c0:c3:e4:25:23:51
+2025-04-11 21:49:20,895 | MainThread   | [DEBUG   ] | <module>            |: debug
+2025-04-11 21:49:20,895 | MainThread   | [INFO    ] | <module>            |: info
+2025-04-11 21:49:20,895 | MainThread   | [WARNING ] | <module>            |: warning
+2025-04-11 21:49:20,896 | MainThread   | [ERROR   ] | <module>            |: error
+2025-04-11 21:49:20,897 | MainThread   | [CRITICAL] | <module>            |: critical
