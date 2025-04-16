@@ -255,6 +255,27 @@
                         </div>
                     </div>
 
+                    <!-- Portfolio Item 10-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto d-flex flex-column justify-content-center align-items-center p-3" 
+                             data-bs-toggle="modal" data-bs-target="#portfolioModal10"
+                             style="background-color: #1D83C1; border-radius: 10px; padding: 20px; text-align: center; height: 300px; width: 100%;">
+                            
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white">
+                                    <i class="fas fa-plus fa-3x"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Centered Image -->
+                            <img class="img-fluid" src="assets/img/portfolio/local_traj3.png" 
+                                 alt="..." style="max-width: 80%; max-height: 70%; object-fit: contain; display: block; margin: 0 auto;">
+                            
+                            <!-- Bold, Centered Text Below Image -->
+                            <p class="fw-bold mt-4 mb-2 text-center" style="color: white; font-size: 32px;">Lab 10</p>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -2154,6 +2175,171 @@
                                         </p>
                                         <p>
                                             Despite limited time and only two scans per location, the compiled map already closely resembles the actual map layout. With additional repeated measurements and calibration, these remaining discrepancies can be minimized. Overall, this lab demonstrated the effectiveness of closed-loop orientation control for reliable spatial data acquisition and laid the groundwork for future localization and navigation tasks.
+                                        </p>
+                                        <br>
+
+                                    </div>
+                                    <!-- Close Button-->
+                                    <button class="btn btn-primary mt-4" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Modal 10-->
+        <div class="portfolio-modal modal fade" id="portfolioModal10" tabindex="-1" aria-labelledby="portfolioModal10" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 10<h3 class="text-warning">Grid Localization using Bayes Filter (Simulation)</h3></h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5 w-50" src="assets/img/portfolio/local_traj3.png" alt="..." />
+                                    <!-- Portfolio Modal - Text (Lab Writeup)-->
+                                    <div class="text-start">
+                                        <h5>Introduction</h5>
+                                        <p>
+                                            The purpose of this lab is to implement a <strong>grid-based robot localization</strong> system using the <strong>Bayes Filter</strong>. In this system, the robot navigates within a simulated environment, and its location 
+                                            is estimated probabilistically over time by maintaining a belief distribution across a discretized 3D grid of possible states (x, y, θ). This belief is updated in two stages — using <strong>odometry data</strong> during the 
+                                            <strong>prediction step</strong>, and using <strong>sensor readings</strong> during the <strong>update step</strong>.
+                                        </p>
+                                        <p>
+                                            The goal is to localize the robot accurately despite noisy motion and sensor data. This lab demonstrates how motion estimation and sensor correction can be integrated in a Bayesian framework to achieve robust localization.
+                                        </p>
+                                        <br>
+
+                                        <h5>Prelab</h5>
+                                        <p>
+                                            <strong>Background</strong>
+                                            The Bayes Filter maintains a probabilistic estimate of the robot's location. At each time step, it goes through:
+                                            <ul>
+                                                <li><strong>Prediction Phase:</strong> Integrates odometry (control input) to estimate the robot’s movement.</li>
+                                                <li><strong>Update Phase:</strong> Refines the estimate using range measurements from onboard sensors.</li>
+                                            </ul>
+                                            This leads to two types of beliefs:
+                                            <ul>
+                                                <li><strong>Prior belief (bel_bar):</strong> After prediction</li>
+                                                <li><strong>Posterior belief (bel):</strong> After sensor-based correction</li>
+                                            </ul>
+                                            The robot's environment is discretized into a 3D grid of poses (x, y, θ), with each cell representing a possible robot state. We implement five key components to realize the Bayes Filter:
+                                        </p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_bayes.png" alt="...">
+                                        <br>
+
+                                        <h5>Lab Tasks</h5>
+                                        <p>
+                                            <strong>Compute control</strong>
+                                            <p>
+                                                This function extracts control parameters from odometry: the first rotation (<code>rot1</code>) aligns the robot with its direction of motion, the translation (<code>trans</code>) measures the straight-line distance traveled, and the second rotation (<code>rot2</code>) aligns the robot with its new heading. It uses trigonometry and normalization to ensure angles are within [−180°,+180°]. These control values are used by the <strong>prediction step</strong> and <strong>odometry motion model</strong> to simulate and evaluate the robot’s motion under uncertainty.
+                                            </p>
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_control.png" alt="...">
+
+                                            <strong>Odometry Motion Model</strong>
+                                            <p>
+                                                This function models the <strong>uncertainty in robot motion</strong> by computing the likelihood that a given transition between poses is consistent with a control input. It uses the Gaussian distribution to score how likely the observed motion is, based on known noise parameters for rotation and translation. It plays a central role in the <strong>prediction step</strong>, determining how prior belief values propagate to future poses based on motion.
+                                            </p>
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_odom.png" alt="...">
+
+                                            <strong>Prediction Step</strong>
+                                            <p>
+                                                The prediction step estimates where the robot could be after applying a motion command, and produces the <strong>prior belief</strong> (<code>bel_bar</code>). It uses <strong>control data from odometry</strong> to determine how likely the robot is to have transitioned from any previous state (<code>px, py, pa</code>) to a new state (<code>cx, cy, ca</code>).
+                                            </p>
+                                            <p>
+                                                To compute this,the algorithm:
+                                            </p>
+                                            <ul>
+                                                <li>Extracts the motion command using <code>compute_control()</code>, which calculates the robot’s relative movement as a tuple (<code>rot1, trans, rot2</code>) based on odometry readings.</li>
+                                                <li>Loops through all <strong>previous states</strong> with significant probability (filtering out very low values to improve efficiency).  </li>
+                                                <li>For each possible <strong>current state</strong>, it computes the likelihood of that transition using the odometry motion model (<code>odom_motion_model()</code>), which applies a Gaussian probability based on the motion noise.</li>
+                                                <li>It then updates the prior belief by multiplying the transition probability by the belief at the previous state and adding that contribution to the current state's prior.</li>
+                                            </ul> 
+                                            <p>
+                                                Finally, it <strong>normalizes the belief grid</strong> <code>bel_bar</code> to ensure the total probability sums to 1. This prior is then used in the <strong>update step</strong>, where sensor data will refine the belief.
+                                            </p>
+                                            <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_pred.png" alt="...">
+
+                                            <strong>Update Step</strong>
+                                            <p>
+                                                This function <strong>updates the belief</strong> <code>bel</code> using sensor measurements. In this implementation, I did not use a separate <code>sensor_model()</code> function. Instead, I chose to perform sensor <strong>likelihood calculations directly</strong> within the <code>update_step()</code> function, which makes the code more efficient and easier to follow. Each time the Bayes filter needs to evaluate the likelihood of a pose, it directly accesses the <strong>expected sensor data</strong> for that pose using <code>mapper.get_views(cx, cy, ca)</code> and compares it with the robot’s actual sensor readings stored in <code>loc.obs_range_data</code>.
+                                            </p>
+                                            <p>
+                                                Each of the 18 individual sensor measurements is evaluated using the <code>loc.gaussian()</code> function, and their probabilities are multiplied together to get the final likelihood <strong>p(z∣x)</strong> for that pose. This likelihood is then multiplied with the prior belief from the prediction step (<code>bel_bar</code>) to compute the updated belief (<code>bel</code>).
+                                            </p>
+                                            <img class="img-fluid rounded w-100 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_update.png" alt="...">
+                                        </p>
+                                        <br>
+
+                                        <h5>Result</h5>
+                                        <p>
+                                            After executing the full trajectory, I observe the localization results in the simulator:
+                                        </p>
+                                        <div class="row justify-content-center text-center">
+                                            <div class="col-md-6">
+                                              <img class="img-fluid rounded w-100 mb-4" src="assets/img/portfolio/local_traj0.png" alt="...">
+                                            </div>
+                                            <div class="col-md-6">
+                                              <img class="img-fluid rounded w-100 mb-4" src="assets/img/portfolio/local_traj1.png" alt="...">
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center text-center">
+                                            <div class="col-md-6">
+                                              <img class="img-fluid rounded w-100 mb-4" src="assets/img/portfolio/local_traj2.png" alt="...">
+                                            </div>
+                                            <div class="col-md-6">
+                                              <img class="img-fluid rounded w-100 mb-4" src="assets/img/portfolio/local_traj3.png" alt="...">
+                                            </div>
+                                        </div>
+                                        <p>
+                                            <ul>
+                                                <li>🔴 Red – Odometry: Estimate from wheel encoders only. Accumulates drift quickly.</li>
+                                                <li>🟩 Green – Ground Truth: Actual robot position in simulation.</li>    
+                                                <li>🔵 Blue – Belief: Output of the Bayes filter. It closely tracks the green ground truth path.</li>
+                                            </ul>
+                                        </p>
+                                        <p>
+                                            The belief begins with uncertainty but gradually aligns with the actual path. The odometry alone diverges significantly, demonstrating the importance of using sensor data to correct the estimate.
+                                        </p>
+                                        <br>
+                                        <p>The videos below display the process of the licalization:</p>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/local_video1.mp4" type="video/mp4">
+                                        </video>
+                                        <video width="400" controls class="d-block mx-auto mt-2 w-75">
+                                            <source src="assets/img/portfolio/local_video2.mp4" type="video/mp4">
+                                        </video>
+                                        <p>Furthermore, the following is the data output during that process:</p>
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_stat1.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_stat2.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_stat3.png" alt="...">
+                                        <img class="img-fluid rounded w-75 mb-4 d-block mx-auto mt-2" src="assets/img/portfolio/local_stat4.png" alt="...">
+                                        <br>
+
+                                        <h5>Conclusion</h5>
+                                        <p>
+                                            In this lab, we successfully implemented grid localization using a Bayes filter with 3D state estimation. The algorithm integrates:
+                                            <ul>
+                                                <li>Odometry-based motion prediction</li>
+                                                <li>Range-based sensor correction</li>
+                                            </ul>
+                                            This process allowed the robot to maintain an accurate belief of its pose in a simulated environment. The results demonstrate how probabilistic localization significantly outperforms raw odometry, especially in environments with many turns or obstacles.
                                         </p>
                                         <br>
 
