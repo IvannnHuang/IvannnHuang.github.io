@@ -1,0 +1,21 @@
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:14:33,974 | MainThread   | [INFO    ] | stop                |: Plotter is stopped
+2025-04-10 12:14:37,433 | MainThread   | [INFO    ] | start               |: Creating New Simulator Process
+2025-04-10 12:14:38,075 | MainThread   | [INFO    ] | start               |: Creating New Plotter Process
+2025-04-10 12:16:12,219 | MainThread   | [ERROR   ] | start               |: Simulator is already running
+2025-04-10 12:16:12,221 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-16 10:00:47,889 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-16 10:00:49,282 | MainThread   | [INFO    ] | start               |: Creating New Simulator Process
+2025-04-16 10:00:49,916 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-16 10:01:04,374 | MainThread   | [INFO    ] | stop                |: Plotter is stopped
+2025-04-16 10:01:06,550 | MainThread   | [ERROR   ] | start               |: Simulator is already running
+2025-04-16 10:01:06,551 | MainThread   | [INFO    ] | start               |: Creating New Plotter Process
