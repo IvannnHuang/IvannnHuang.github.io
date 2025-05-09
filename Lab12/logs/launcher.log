@@ -1,0 +1,35 @@
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:06,542 | MainThread   | [ERROR   ] | on_click_sim_reset  |: Simulator is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:10:07,873 | MainThread   | [ERROR   ] | on_click_plotter_reset|: Plotter is not running
+2025-04-10 12:14:33,974 | MainThread   | [INFO    ] | stop                |: Plotter is stopped
+2025-04-10 12:14:37,433 | MainThread   | [INFO    ] | start               |: Creating New Simulator Process
+2025-04-10 12:14:38,075 | MainThread   | [INFO    ] | start               |: Creating New Plotter Process
+2025-04-10 12:16:12,219 | MainThread   | [ERROR   ] | start               |: Simulator is already running
+2025-04-10 12:16:12,221 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-16 10:00:47,889 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-16 10:00:49,282 | MainThread   | [INFO    ] | start               |: Creating New Simulator Process
+2025-04-16 10:00:49,916 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-16 10:01:04,374 | MainThread   | [INFO    ] | stop                |: Plotter is stopped
+2025-04-16 10:01:06,550 | MainThread   | [ERROR   ] | start               |: Simulator is already running
+2025-04-16 10:01:06,551 | MainThread   | [INFO    ] | start               |: Creating New Plotter Process
+2025-04-23 10:11:18,857 | MainThread   | [INFO    ] | on_click_sim_reset  |: Resetting Simulator
+2025-04-23 10:11:19,844 | MainThread   | [INFO    ] | on_click_plotter_reset|: Resetting Plotter
+2025-04-23 10:11:23,191 | MainThread   | [INFO    ] | stop                |: Simulator is stopped
+2025-04-23 10:11:23,964 | MainThread   | [INFO    ] | stop                |: Plotter is stopped
+2025-04-23 12:06:33,514 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-23 12:13:56,645 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-23 12:14:21,712 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-24 13:18:21,724 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-24 13:18:23,422 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-24 13:18:35,159 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-24 13:20:14,384 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-24 16:21:37,080 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
+2025-04-24 17:02:40,602 | MainThread   | [ERROR   ] | start               |: Plotter is already running
+2025-04-24 17:02:45,649 | MainThread   | [INFO    ] | GET_GUI             |: GUI is already running. Shutdown notebook to force restart the GUI.
