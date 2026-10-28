@@ -112,7 +112,10 @@
           <p><b>How:</b> ${esc(p.how)}</p>
           <div class="metrics">${metrics(p)}</div>
           <div class="card-foot"><div class="tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>
-            <button class="details-btn" aria-haspopup="dialog">Details <span aria-hidden="true">→</span></button></div>
+            <div class="card-actions">
+              ${p.repo ? `<a class="details-btn code-btn" href="${p.repo}" target="_blank" rel="noopener">Code <span aria-hidden="true">↗</span></a>` : ""}
+              <button class="details-btn" aria-haspopup="dialog">Details <span aria-hidden="true">→</span></button>
+            </div></div>
         </div>`;
       grid.appendChild(card);
       const cv = $("canvas", card), r = new Runner(cv, p.demo);
@@ -130,7 +133,8 @@
     const c = catById[p.cat];
     modal.style.setProperty("--accent", c.color);
     const figs = (p.figs || []).map(([src, cap, dark]) => `<figure class="${dark ? "dark" : ""}"><img src="assets/img/${src}" alt="${esc(cap)}" loading="lazy"><figcaption>${esc(cap)}</figcaption></figure>`).join("");
-    const links = (p.links || []).map(([l, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join("");
+    const links = [...(p.repo ? [["GitHub repository", p.repo]] : []), ...(p.links || [])]
+      .map(([l, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join("");
     $("#modal-body").innerHTML = `
       <div class="card-meta">${meta(p)}</div>
       <h3 id="modal-title">${esc(p.title)}</h3>
@@ -139,7 +143,7 @@
       <h5>How it works</h5>
       <ol class="steps">${p.steps.map(s => `<li>${s}</li>`).join("")}</ol>
       ${figs ? `<h5>From the project</h5><div class="figs">${figs}</div>` : ""}
-      ${links ? `<h5>Watch</h5><div class="links">${links}</div>` : ""}
+      ${links ? `<h5>Links</h5><div class="links">${links}</div>` : ""}
       <h5>Stack</h5><div class="tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>
       ${p.note ? `<p class="note">${esc(p.note)}</p>` : ""}`;
     $("#modal-hint").textContent = p.hint || "";

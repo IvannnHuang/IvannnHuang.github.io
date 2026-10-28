@@ -31,7 +31,7 @@ const CATEGORIES = [
 const PROJECTS = [
   /* ---------------- SILICON & ARCHITECTURE ---------------- */
   {
-    id: "tcam", cat: "silicon", demo: "tcam",
+    id: "tcam", repo: "https://github.com/IvannnHuang/VLSI-TCAM", cat: "silicon", demo: "tcam",
     title: "32×32 Ternary CAM with Priority Encoder",
     course: "VLSI Design · 180 nm CMOS",
     purpose: "Single-cycle associative lookup — the memory behind router tables and TLBs — that searches 32 ternary words at once and returns the highest-priority match.",
@@ -49,7 +49,7 @@ const PROJECTS = [
     hint: "precharge → broadcast key → mismatches discharge"
   },
   {
-    id: "riscv", cat: "silicon", demo: "pipeline",
+    id: "riscv", repo: "https://github.com/IvannnHuang/PipelineProc", cat: "silicon", demo: "pipeline",
     title: "Pipelined Multicore RISC-V Processor",
     course: "ECE 4750 · Computer Architecture", team: "with Antti Meriluoto",
     purpose: "A complete RV32 system in RTL — from a single pipelined core up to a four-core machine sharing a banked cache.",
@@ -104,7 +104,7 @@ const PROJECTS = [
 
   /* ---------------- FPGA & ACCELERATION ---------------- */
   {
-    id: "lorenz", cat: "fpga", demo: "lorenz",
+    id: "lorenz", repo: "https://github.com/IvannnHuang/MEng_ZYBO", cat: "fpga", demo: "lorenz",
     title: "Lorenz Attractor Solver on Zybo Z7",
     course: "M.Eng Project · Xilinx Zynq-7010",
     purpose: "Port Cornell's DE1-SoC FPGA labs to the Xilinx Zybo Z7. The first lab is a hardware ODE solver that draws chaos live over HDMI.",
@@ -121,7 +121,7 @@ const PROJECTS = [
     hint: "two trajectories, Δx₀ = 0.001 — the butterfly effect"
   },
   {
-    id: "mandel", cat: "fpga", demo: "mandelbrot", status: "in progress",
+    id: "mandel", repo: "https://github.com/IvannnHuang/MEng_ZYBO", cat: "fpga", demo: "mandelbrot", status: "in progress",
     title: "1080p Mandelbrot Accelerator",
     course: "M.Eng Project · Xilinx Zynq-7010",
     purpose: "Render the Mandelbrot set at 1920×1080 in FPGA fabric with live pan and zoom — the second ported lab.",
@@ -157,7 +157,7 @@ const PROJECTS = [
 
   /* ---------------- EMBEDDED ---------------- */
   {
-    id: "galton", cat: "embedded", demo: "galton",
+    id: "galton", repo: "https://github.com/IvannnHuang/uController", cat: "embedded", demo: "galton",
     title: "Digital Galton Board",
     course: "ECE 5730 · RP2350 (Pico 2)", team: "with Amber Li & Zarif Karim",
     purpose: "The central limit theorem, live: thousands of balls bouncing through pegs on a VGA screen, each collision making a sound.",
@@ -174,7 +174,7 @@ const PROJECTS = [
     hint: "a binomial histogram becomes a Gaussian"
   },
   {
-    id: "bird", cat: "embedded", demo: "dds",
+    id: "bird", repo: "https://github.com/IvannnHuang/uController", cat: "embedded", demo: "dds",
     title: "Birdsong Synthesizer",
     course: "ECE 5730 · RP2350 (Pico 2)", team: "with Amber Li & Zarif Karim",
     purpose: "Synthesize bird calls in real time, then test them against the Merlin Bird ID app.",
@@ -191,7 +191,7 @@ const PROJECTS = [
     hint: "click to hear a synthesized chirp ♪"
   },
   {
-    id: "heli", cat: "embedded", demo: "pid", status: "in progress",
+    id: "heli", repo: "https://github.com/IvannnHuang/uController", cat: "embedded", demo: "pid", status: "in progress",
     title: "PID-Controlled 1-D Helicopter",
     course: "ECE 5730 · RP2350 (Pico 2)", team: "with Amber Li & Zarif Karim",
     purpose: "Hold a propeller-driven arm at any angle, including the unstable region above horizontal, using feedback control.",
@@ -209,7 +209,7 @@ const PROJECTS = [
 
   /* ---------------- ROBOTICS ---------------- */
   {
-    id: "fastrobots", cat: "robotics", demo: "bayes",
+    id: "fastrobots", repo: "https://github.com/IvannnHuang/FastRobot", cat: "robotics", demo: "bayes",
     title: "Fast Robots: Autonomous RC Car",
     course: "ECE 4160 · Fast Robots · 12 labs",
     purpose: "Turn a toy RC car into a fast autonomous robot, building sensing, control, estimation and planning from scratch over a semester.",
@@ -226,7 +226,7 @@ const PROJECTS = [
     hint: "belief (glow) converging on the true pose"
   },
   {
-    id: "roomba", cat: "robotics", demo: "pfrrt",
+    id: "roomba", repo: "https://github.com/IvannnHuang/Ece4180_Project", cat: "robotics", demo: "pfrrt",
     title: "Roomba Localization & Navigation",
     course: "ECE 4180 · Autonomous Mobile Robots",
     purpose: "Start a robot at an unknown pose, let it work out where it is, then visit every waypoint while avoiding stay-away zones.",
@@ -260,7 +260,7 @@ const PROJECTS = [
     hint: "left: workspace · right: C-space roadmap"
   },
   {
-    id: "arm", cat: "robotics", demo: "stepper",
+    id: "arm", repo: "https://github.com/IvannnHuang/Robot-Arm", cat: "robotics", demo: "stepper",
     title: "Closed-Loop Stepper Robot Arm",
     course: "INFO 4320 · Hardware build",
     purpose: "Design and build a desktop robot arm from scratch: CAD, 3D-printed joints, electronics and firmware.",
@@ -314,7 +314,7 @@ const PROJECTS = [
     hint: "each row's dot product split across threads"
   },
   {
-    id: "spgemm", cat: "perf", demo: "spgemm",
+    id: "spgemm", repo: "https://github.com/IvannnHuang/ECE6750-PA3", cat: "perf", demo: "spgemm",
     title: "Load-Balanced Sparse Matrix Multiply",
     course: "ECE 6750 · Parallel Computing", team: "with Kian Mahmoodi",
     purpose: "Parallelize Gustavson's sparse GEMM, the kernel behind sparse ML, when row costs are wildly uneven.",
