@@ -7,12 +7,12 @@
 const DEMOS = {};
 
 const PAL = {
-  bg: "#070a12", panel: "#0d1220", line: "rgba(255,255,255,0.08)", grid: "rgba(255,255,255,0.045)",
-  text: "#e7eaf2", muted: "#8d96ab", dim: "#5d667b",
-  silicon: "#a78bfa", fpga: "#f472b6", emb: "#4ade80", rob: "#fbbf24", perf: "#38bdf8",
-  brand: "#78f0d2", red: "#f87171", blue: "#60a5fa"
+  bg: "#fbfaf7", panel: "#f1efe9", line: "rgba(26,26,25,0.16)", grid: "rgba(26,26,25,0.045)",
+  text: "#1a1a19", muted: "#5f5d57", dim: "#9a978e",
+  silicon: "#5a3fb0", fpga: "#b8325f", emb: "#1f7a45", rob: "#b86e00", perf: "#1f5fbf",
+  brand: "#c8371a", red: "#c62828", blue: "#2f6fd6", stone: "#d3cec2"
 };
-const THREAD_COLORS = ["#38bdf8", "#f472b6", "#fbbf24", "#4ade80", "#a78bfa", "#f87171"];
+const THREAD_COLORS = ["#1f5fbf", "#b8325f", "#b86e00", "#1f7a45", "#5a3fb0", "#c62828"];
 
 const rand = (a = 1, b) => (b === undefined ? Math.random() * a : a + Math.random() * (b - a));
 const randi = n => Math.floor(Math.random() * n);
@@ -37,14 +37,15 @@ function clear(env, dots = true) {
   ctx.fillStyle = PAL.bg; ctx.fillRect(0, 0, w, h);
   if (dots) {
     ctx.fillStyle = PAL.grid;
-    for (let x = 12; x < w; x += 22) for (let y = 12; y < h; y += 22) ctx.fillRect(x, y, 1.2, 1.2);
+    for (let x = 20; x < w; x += 20) ctx.fillRect(x, 0, 1, h);
+    for (let y = 20; y < h; y += 20) ctx.fillRect(0, y, w, 1);
   }
 }
 function alpha(hex, a) {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
 }
-function glowLine(ctx, color, width, blur) { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.shadowColor = color; ctx.shadowBlur = blur; }
+function glowLine(ctx, color, width) { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.shadowBlur = 0; } // flat ink, no glow
 function noGlow(ctx) { ctx.shadowBlur = 0; }
 
 /* ---------------------------------------------------------
@@ -99,7 +100,7 @@ DEMOS.tcam = env => {
         for (let j = 0; j < C; j++) {
           const x = x0 + j * s, bad = ph >= 2 && !cellOk[i][j];
           rr(ctx, x + 3, y + 3, s - 6, s - 6, 4);
-          ctx.fillStyle = bad ? alpha(PAL.red, 0.28) : words[i][j] === "X" ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.06)"; ctx.fill();
+          ctx.fillStyle = bad ? alpha(PAL.red, 0.28) : words[i][j] === "X" ? "rgba(26,26,25,0.03)" : "rgba(26,26,25,0.06)"; ctx.fill();
           if (wrote === i && t < 0.5) { ctx.strokeStyle = alpha(PAL.brand, 0.8); ctx.lineWidth = 1; ctx.stroke(); }
           txt(ctx, words[i][j], x + s / 2, y + s / 2 + 1, { align: "center", base: "middle", color: words[i][j] === "X" ? PAL.dim : bad ? PAL.red : PAL.text, size: Math.min(12, s * 0.38) });
         }
@@ -193,7 +194,7 @@ DEMOS.pipeline = env => {
         rr(ctx, bx(k), by, bw, bh, 10); ctx.fillStyle = PAL.panel; ctx.fill();
         ctx.strokeStyle = k === 2 && event ? alpha(PAL.rob, 0.6) : PAL.line; ctx.lineWidth = 1; ctx.stroke();
         txt(ctx, n, bx(k) + bw / 2, by - 7, { align: "center", color: PAL.silicon, size: 11, weight: 600 });
-        if (k < 4) { ctx.fillStyle = "rgba(167,139,250,0.35)"; ctx.fillRect(bx(k) + bw + gap / 2 - 1, by + 8, 2, bh - 16); }
+        if (k < 4) { ctx.fillStyle = "rgba(90,63,176,0.35)"; ctx.fillRect(bx(k) + bw + gap / 2 - 1, by + 8, 2, bh - 16); }
       });
       const e = ease(Math.min(1, p * 2.4));
       slots.forEach((s, k) => {
@@ -203,12 +204,12 @@ DEMOS.pipeline = env => {
         ctx.globalAlpha = from < 0 ? e : 1;
         rr(ctx, x, y, tw, th, 7);
         if (s.bubble) {
-          ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.stroke(); ctx.setLineDash([]);
+          ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(26,26,25,0.25)"; ctx.stroke(); ctx.setLineDash([]);
           txt(ctx, "bubble", x + tw / 2, y + th / 2 + 4, { align: "center", color: PAL.dim, size: 10 });
         } else {
-          const col = `hsl(${hues[s.i]} 80% 65%)`;
-          ctx.fillStyle = s.sq ? "rgba(255,255,255,0.03)" : `hsla(${hues[s.i]},80%,60%,0.16)`; ctx.fill();
-          ctx.strokeStyle = s.sq ? "rgba(255,255,255,0.15)" : `hsla(${hues[s.i]},80%,65%,0.7)`; ctx.lineWidth = 1; ctx.stroke();
+          const col = `hsl(${hues[s.i]} 70% 40%)`;
+          ctx.fillStyle = s.sq ? "rgba(26,26,25,0.03)" : `hsla(${hues[s.i]},70%,50%,0.13)`; ctx.fill();
+          ctx.strokeStyle = s.sq ? "rgba(26,26,25,0.15)" : `hsla(${hues[s.i]},70%,42%,0.75)`; ctx.lineWidth = 1; ctx.stroke();
           const fs = Math.max(8.5, Math.min(12, tw / 7.5));
           txt(ctx, s.op, x + tw / 2, y + th / 2 - 3, { align: "center", color: s.sq ? PAL.dim : col, size: fs + 1, weight: 600 });
           txt(ctx, s.a, x + tw / 2, y + th / 2 + fs + 1, { align: "center", color: s.sq ? PAL.dim : PAL.muted, size: Math.max(7.5, fs - 2.5) });
@@ -239,7 +240,7 @@ DEMOS.pipeline = env => {
         packets.forEach(pk => {
           pk.p = (pk.p + pk.v * dt + 8) % 8;
           const a = (pk.p / 8) * Math.PI * 2 - Math.PI / 2;
-          ctx.save(); ctx.fillStyle = pk.c; ctx.shadowColor = pk.c; ctx.shadowBlur = 8;
+          ctx.save(); ctx.fillStyle = pk.c; ctx.shadowColor = pk.c; ctx.shadowBlur = 0;
           ctx.beginPath(); ctx.arc(rcx + Math.cos(a) * rad, rcy + Math.sin(a) * rad, 3, 0, 7); ctx.fill(); ctx.restore();
         });
         txt(ctx, "ring", rcx, rcy + 3, { align: "center", size: 9, color: PAL.dim });
@@ -257,7 +258,7 @@ DEMOS.tinyflow = env => {
   const steps = ["RTL sim", "Synthesis", "Gate-level sim", "Placement", "Routing", "DRC", "LVS", "GDS"];
   const cellNames = ["INV", "NAND2", "NOR2", "AOI21", "NAND2", "INV", "NOR2", "AOI21", "INV", "NAND2", "NOR2", "INV", "AOI21", "NAND2", "INV", "NOR2", "NAND2", "INV"];
   let cells, nets, slotOf, T, stage, stageT, hist, routeQ, routed, bfs, done, failed;
-  const colors = ["#a78bfa", "#38bdf8", "#f472b6", "#4ade80", "#fbbf24", "#f87171", "#60a5fa", "#2dd4bf", "#e879f9", "#facc15", "#fb923c", "#34d399"];
+  const colors = ["#5a3fb0", "#1f5fbf", "#b8325f", "#1f7a45", "#b86e00", "#c62828", "#2f6fd6", "#0f766e", "#9d2b9e", "#8a6d00", "#c2410c", "#15803d"];
   function init() {
     const N = cellNames.length;
     const slots = [...Array(NR * NS).keys()].sort(() => Math.random() - 0.5);
@@ -345,15 +346,15 @@ DEMOS.tinyflow = env => {
       const dx = pad + (dieW - sw * NS) / 2, dy = pad + 16 + (dieH - rowH * NR) / 2;
       txt(ctx, "die", dx, dy - 6, { color: PAL.dim, size: 10 });
       ctx.strokeStyle = alpha(PAL.silicon, 0.5); ctx.lineWidth = 1; ctx.strokeRect(dx - 4, dy - 4, sw * NS + 8, rowH * NR + 8);
-      for (let r = 0; r < NR; r++) { ctx.fillStyle = r % 2 ? "rgba(167,139,250,0.04)" : "rgba(167,139,250,0.08)"; ctx.fillRect(dx, dy + r * rowH, sw * NS, rowH); }
+      for (let r = 0; r < NR; r++) { ctx.fillStyle = r % 2 ? "rgba(90,63,176,0.04)" : "rgba(90,63,176,0.08)"; ctx.fillRect(dx, dy + r * rowH, sw * NS, rowH); }
       // power rails
-      ctx.fillStyle = "rgba(96,165,250,0.18)"; for (let r = 0; r <= NR; r++) ctx.fillRect(dx, dy + r * rowH - 1, sw * NS, 2);
+      ctx.fillStyle = "rgba(47,111,214,0.18)"; for (let r = 0; r <= NR; r++) ctx.fillRect(dx, dy + r * rowH - 1, sw * NS, 2);
       const gx = x => dx + (x + 0.5) * (sw / G), gy = y => dy + (y + 0.5) * (rowH / G);
       // cells
       cells.forEach(c => {
         const [tx, ty] = slotXY(c.slot); c.dx = lerp(c.dx, tx, Math.min(1, dt * 10)); c.dy = lerp(c.dy, ty, Math.min(1, dt * 10));
         const x = dx + c.dx * sw + 1.5, y = dy + c.dy * rowH + 3;
-        rr(ctx, x, y, sw - 3, rowH - 6, 3); ctx.fillStyle = "rgba(167,139,250,0.22)"; ctx.fill(); ctx.strokeStyle = alpha(PAL.silicon, 0.55); ctx.stroke();
+        rr(ctx, x, y, sw - 3, rowH - 6, 3); ctx.fillStyle = "rgba(90,63,176,0.22)"; ctx.fill(); ctx.strokeStyle = alpha(PAL.silicon, 0.55); ctx.stroke();
         if (sw > 26) txt(ctx, c.n, x + (sw - 3) / 2, y + rowH - 10, { align: "center", size: Math.min(8.5, sw / 4.8), color: PAL.muted });
       });
       // ratsnest during placement
@@ -371,7 +372,7 @@ DEMOS.tinyflow = env => {
         routed.forEach(r => {
           ctx.save(); glowLine(ctx, nets[r.k].c, 2, 6); ctx.lineJoin = "round"; ctx.beginPath();
           r.path.forEach((id, i) => { const x = gx(id % GW), y = gy((id / GW) | 0); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.restore();
-          [r.path[0], r.path[r.path.length - 1]].forEach(id => { ctx.fillStyle = "#fff"; ctx.fillRect(gx(id % GW) - 2, gy((id / GW) | 0) - 2, 4, 4); });
+          [r.path[0], r.path[r.path.length - 1]].forEach(id => { ctx.fillStyle = PAL.text; ctx.fillRect(gx(id % GW) - 2, gy((id / GW) | 0) - 2, 4, 4); });
         });
       }
       if (stage === 5 || stage === 6) {
@@ -440,14 +441,14 @@ DEMOS.smithwaterman = env => {
       const onPath = new Set(path.slice(0, phase ? Math.floor(pathT / 0.08) + 1 : 0).map(([i, j]) => i * 100 + j));
       for (let i = 1; i <= N; i++) for (let j = 1; j <= N; j++) {
         const x = x0 + j * cs, y = y0 + i * cs;
-        if (H[i][j] === null) { ctx.fillStyle = "rgba(255,255,255,0.02)"; ctx.fillRect(x + 1, y + 1, cs - 2, cs - 2); continue; }
+        if (H[i][j] === null) { ctx.fillStyle = "rgba(26,26,25,0.02)"; ctx.fillRect(x + 1, y + 1, cs - 2, cs - 2); continue; }
         const computed = i + j < diag || phase;
         const front = !phase && i + j === diag - 1;
         if (computed) {
           const v = H[i][j] / Math.max(1, best[0]);
-          ctx.fillStyle = `rgba(244,114,182,${0.08 + v * 0.6})`; ctx.fillRect(x + 1, y + 1, cs - 2, cs - 2);
-          if (cs > 17) txt(ctx, String(H[i][j]), x + cs / 2, y + cs / 2 + 3.5, { align: "center", size: Math.min(10, cs * 0.42), color: v > 0.5 ? "#fff" : PAL.muted });
-        } else { ctx.strokeStyle = "rgba(255,255,255,0.06)"; ctx.strokeRect(x + 1.5, y + 1.5, cs - 3, cs - 3); }
+          ctx.fillStyle = `rgba(184,50,95,${0.08 + v * 0.6})`; ctx.fillRect(x + 1, y + 1, cs - 2, cs - 2);
+          if (cs > 17) txt(ctx, String(H[i][j]), x + cs / 2, y + cs / 2 + 3.5, { align: "center", size: Math.min(10, cs * 0.42), color: v > 0.5 ? PAL.text : PAL.muted });
+        } else { ctx.strokeStyle = "rgba(26,26,25,0.06)"; ctx.strokeRect(x + 1.5, y + 1.5, cs - 3, cs - 3); }
         if (front) { ctx.save(); glowLine(ctx, PAL.brand, 1.5, 10); ctx.strokeRect(x + 1.5, y + 1.5, cs - 3, cs - 3); ctx.restore(); }
         if (onPath.has(i * 100 + j)) { ctx.save(); glowLine(ctx, PAL.rob, 2, 10); ctx.strokeRect(x + 2, y + 2, cs - 4, cs - 4); ctx.restore(); }
       }
@@ -512,13 +513,13 @@ DEMOS.lorenz = env => {
       ctx.stroke();
     }
     const hd = proj(tr[tr.length - 1] || [0, 0, 25], w, h);
-    ctx.save(); ctx.fillStyle = "#fff"; ctx.shadowColor = col; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(hd[0], hd[1], 3, 0, 7); ctx.fill(); ctx.restore();
+    ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = col; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(hd[0], hd[1], 3, 0, 7); ctx.fill(); ctx.restore();
   }
   return {
     draw(dt) {
       const { ctx, w, h } = env;
       life += dt; if (life > 28) init();
-      ang = 0.15 + Math.sin(life * 0.18) * 0.6; // sway around the classic butterfly view
+      ang = -0.7 + Math.sin(life * 0.18) * 0.3; // sway around the view where the two wings separate
       for (let k = 0; k < 6; k++) { step(a, 0.0055); step(b, 0.0055); }
       ta.push([...a]); tb.push([...b]); if (ta.length > MAX) { ta.shift(); tb.shift(); }
       clear(env, false);
@@ -536,7 +537,9 @@ DEMOS.lorenz = env => {
 /* ---------------------------------------------------------
    6. Mandelbrot — progressive render by 16 parallel lanes
    --------------------------------------------------------- */
-const MSTOPS = [[0, 14, 18, 48], [0.2, 92, 60, 200], [0.42, 244, 114, 182], [0.62, 251, 191, 36], [0.8, 255, 246, 220], [1, 14, 18, 48]];
+// print-like ramp: paper → pale blue → cobalt → vermilion edge → ink
+const MSTOPS = [[0, 251, 250, 247], [0.4, 214, 222, 236], [0.68, 31, 95, 191], [0.86, 200, 55, 26], [1, 26, 26, 25]];
+const M_INK = [228, 223, 211]; // the set itself: pale stone, so the boundary reads as ink on paper
 DEMOS.mandelbrot = env => {
   const LX = 4, LY = 4;
   const targets = [[-0.743643887, 0.131825904], [-0.1011, 0.9563], [-1.25066, 0.02012], [-0.7453, 0.1127], [0.2549, 0.0005]];
@@ -545,7 +548,7 @@ DEMOS.mandelbrot = env => {
   function setup() {
     bw = Math.max(40, Math.ceil(env.w / 2)); bh = Math.max(30, Math.ceil(env.h / 2));
     off.width = tmp.width = bw; off.height = tmp.height = bh;
-    oc.fillStyle = "#000"; oc.fillRect(0, 0, bw, bh); img = oc.getImageData(0, 0, bw, bh);
+    oc.fillStyle = PAL.bg; oc.fillRect(0, 0, bw, bh); img = oc.getImageData(0, 0, bw, bh);
     cx = -0.65; cy = 0; sc = baseSc(); zooms = 0; startRender();
   }
   const baseSc = () => Math.max(3.1 / bw, 2.6 / bh); // whole set fits at any aspect ratio
@@ -568,20 +571,19 @@ DEMOS.mandelbrot = env => {
     cx = nx; cy = ny; sc = nsc; zooms++; startRender();
   }
   function color(it, zr, zi) {
-    if (it >= maxIt) return [0, 0, 0];
+    if (it >= maxIt) return M_INK;
     const nu = it + 1 - Math.log2(Math.log2(zr * zr + zi * zi) / 2 + 1e-9);
-    const k = 1 - Math.exp(-nu / 9); // far-outside points fade to the background
-    // cyclic gradient: navy → violet → pink → amber → white → navy
-    let t = (nu / 34) % 1; t = t < 0 ? t + 1 : t;
+    // escape speed on a log scale: fast escapes stay paper, slow ones darken toward the set
+    const t = clamp(Math.log(1 + nu) / Math.log(1 + maxIt), 0, 0.999);
     let i = 0; while (i < MSTOPS.length - 2 && MSTOPS[i + 1][0] < t) i++;
     const [t0, ...c0] = MSTOPS[i], [t1, ...c1] = MSTOPS[i + 1], f = (t - t0) / (t1 - t0);
-    return [k * lerp(c0[0], c1[0], f), k * lerp(c0[1], c1[1], f), k * lerp(c0[2], c1[2], f)];
+    return [0, 1, 2].map(j => lerp(c0[j], c1[j], f));
   }
   function iterate(x, y) {
     const cr = cx + (x - bw / 2) * sc, ci = cy + (y - bh / 2) * sc;
     // cardioid / period-2 bulb shortcut
     const q = (cr - 0.25) ** 2 + ci * ci;
-    if (q * (q + (cr - 0.25)) < 0.25 * ci * ci || (cr + 1) ** 2 + ci * ci < 0.0625) return [0, 0, 0];
+    if (q * (q + (cr - 0.25)) < 0.25 * ci * ci || (cr + 1) ** 2 + ci * ci < 0.0625) return M_INK;
     let zr = 0, zi = 0, zr2 = 0, zi2 = 0, it = 0;
     while (it < maxIt && zr2 + zi2 <= 16) { zi = 2 * zr * zi + ci; zr = zr2 - zi2 + cr; zr2 = zr * zr; zi2 = zi * zi; it++; }
     return color(it, zr, zi);
@@ -610,11 +612,11 @@ DEMOS.mandelbrot = env => {
       // lane overlay
       const sx = w / bw, sy = h / bh;
       lanes.forEach((L, i) => {
-        ctx.strokeStyle = "rgba(255,255,255,0.08)"; ctx.lineWidth = 1; ctx.strokeRect(L.x0 * sx, L.y0 * sy, (L.x1 - L.x0) * sx, (L.y1 - L.y0) * sy);
+        ctx.strokeStyle = "rgba(26,26,25,0.08)"; ctx.lineWidth = 1; ctx.strokeRect(L.x0 * sx, L.y0 * sy, (L.x1 - L.x0) * sx, (L.y1 - L.y0) * sy);
         if (!L.done) { ctx.fillStyle = alpha(PAL.fpga, 0.85); ctx.fillRect(L.x0 * sx, L.y * sy, (L.x - L.x0) * sx, 2); }
       });
       if (allDone) { hold += dt; if (hold > 0.9) { if (zooms >= 7) { ti = (ti + 1) % targets.length; cx = -0.65; cy = 0; sc = baseSc(); zooms = 0; startRender(); } else { const [tx, ty] = targets[ti]; zoomTo(lerp(cx, tx, 0.75), lerp(cy, ty, 0.75), 0.36); } } }
-      rr(ctx, 10, h - 34, 196, 24, 6); ctx.fillStyle = "rgba(6,8,14,0.7)"; ctx.fill();
+      rr(ctx, 10, h - 34, 196, 24, 6); ctx.fillStyle = "rgba(251,250,247,0.88)"; ctx.fill();
       txt(ctx, `zoom ${(baseSc() / sc).toFixed(1)}×  ·  16 lanes  ·  it ${maxIt}`, 18, h - 18, { size: 10, color: PAL.text });
     },
     click(x, y) {
@@ -650,28 +652,28 @@ DEMOS.vla = env => {
       layers.forEach((n, i) => {
         const y = sy + i * lh, active = t < 1 && Math.floor(pulse * layers.length) === i;
         rr(ctx, sx, y + 2, sw, lh - 5, 6);
-        ctx.fillStyle = active ? alpha(n === "SA" ? PAL.perf : PAL.fpga, 0.35) : "rgba(255,255,255,0.04)"; ctx.fill();
+        ctx.fillStyle = active ? alpha(n === "SA" ? PAL.perf : PAL.fpga, 0.35) : "rgba(26,26,25,0.04)"; ctx.fill();
         ctx.strokeStyle = alpha(n === "SA" ? PAL.perf : PAL.fpga, active ? 0.9 : 0.3); ctx.stroke();
         txt(ctx, `${n === "SA" ? "Self-Attn" : "Cross-Attn"} + MLP`, sx + sw / 2, y + lh / 2 + 2, { align: "center", size: Math.min(9.5, sw / 9.5), color: active ? PAL.text : PAL.muted });
       });
       txt(ctx, "RoPE · GQA · RMSNorm", sx, h - 34, { size: 9, color: PAL.dim });
       // trajectory plot
       const px = sx + sw + 24, pw = w - px - 14, ph = h - 92, py = 22;
-      rr(ctx, px, py, pw, ph, 10); ctx.fillStyle = "rgba(255,255,255,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
+      rr(ctx, px, py, pw, ph, 10); ctx.fillStyle = "rgba(26,26,25,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
       txt(ctx, `flow step ${k + 1}/10  ·  action chunk = ${L} steps`, px + 10, py + 16, { size: 10, color: PAL.text });
       const tt = ease(t), mx = px + pw / 2, my = py + ph / 2 + 8, s = Math.min(pw, ph) * 0.38;
       const pts = target.map((p, i) => [mx + (lerp(noise[i][0], p[0], tt)) * s * 1.25, my + (lerp(noise[i][1], p[1], tt)) * s]);
       ctx.save(); rr(ctx, px, py, pw, ph, 10); ctx.clip();
       ctx.lineWidth = 1.5;
-      for (let i = 1; i < L; i++) { ctx.strokeStyle = `hsla(${200 + i * 2.4},80%,65%,${0.25 + tt * 0.6})`; ctx.beginPath(); ctx.moveTo(...pts[i - 1]); ctx.lineTo(...pts[i]); ctx.stroke(); }
-      pts.forEach((p, i) => { ctx.fillStyle = `hsl(${200 + i * 2.4} 85% 68%)`; ctx.beginPath(); ctx.arc(p[0], p[1], 2.4, 0, 7); ctx.fill(); });
+      for (let i = 1; i < L; i++) { ctx.strokeStyle = `hsla(${200 + i * 2.4},70%,45%,${0.25 + tt * 0.6})`; ctx.beginPath(); ctx.moveTo(...pts[i - 1]); ctx.lineTo(...pts[i]); ctx.stroke(); }
+      pts.forEach((p, i) => { ctx.fillStyle = `hsl(${200 + i * 2.4} 70% 42%)`; ctx.beginPath(); ctx.arc(p[0], p[1], 2.4, 0, 7); ctx.fill(); });
       ctx.restore();
       txt(ctx, t < 1 ? "noise → refined trajectory" : "✓ action chunk ready", px + pw - 10, py + ph - 10, { align: "right", size: 10, color: t < 1 ? PAL.dim : PAL.emb });
       // speedup bars
       const bars = [["baseline", 1], ["fused+pipelined", 2], ["int8", 5]], by = h - 54, bwid = (pw - 20) / 3;
       bars.forEach(([n, v], i) => {
         const x = px + i * (bwid + 10), len = (v / 5) * bwid * ease(barT);
-        ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.fillRect(x, by + 14, bwid, 9);
+        ctx.fillStyle = "rgba(26,26,25,0.05)"; ctx.fillRect(x, by + 14, bwid, 9);
         ctx.fillStyle = [PAL.dim, PAL.perf, PAL.fpga][i]; ctx.fillRect(x, by + 14, len, 9);
         txt(ctx, `${n} ${v}×`, x, by + 8, { size: 9.5, color: PAL.muted });
       });
@@ -716,9 +718,9 @@ DEMOS.galton = env => {
       if (total > 1800) { counts.fill(0); total = 0; }
       clear(env, false);
       // pegs
-      ctx.fillStyle = "#1a3a2a";
+      ctx.fillStyle = PAL.text;
       for (let r = 0; r < ROWS; r++) for (let k = 0; k <= r; k++) {
-        ctx.beginPath(); ctx.arc(cx + (k - r / 2) * d, y0 + r * vy0, rp, 0, 7); ctx.fillStyle = "#cfeedd"; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + (k - r / 2) * d, y0 + r * vy0, rp, 0, 7); ctx.fillStyle = PAL.text; ctx.fill();
       }
       // balls
       ctx.strokeStyle = PAL.emb; ctx.lineWidth = 1.2;
@@ -790,9 +792,9 @@ DEMOS.dds = env => {
       txt(ctx, `f = ${f ? Math.round(f) + " Hz" : "—"}`, wx, wy - R - 14, { align: "center", size: 11, color: PAL.text, weight: 600 });
       // spectrogram
       const sx = wx + R + 36, sw = w - sx - 14, sy = 18, sh = h * 0.46;
-      rr(ctx, sx, sy, sw, sh, 8); ctx.fillStyle = "rgba(255,255,255,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
+      rr(ctx, sx, sy, sw, sh, 8); ctx.fillStyle = "rgba(26,26,25,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
       txt(ctx, "spectrogram", sx + 8, sy + 14, { size: 9.5, color: PAL.dim }); txt(ctx, "5 kHz", sx + sw - 6, sy + 14, { align: "right", size: 9, color: PAL.dim });
-      ctx.save(); ctx.globalCompositeOperation = "lighter";
+      ctx.save();
       hist.forEach((fv, i) => {
         if (!fv) return;
         const x = sx + (i / 260) * sw, y = sy + sh - (fv / 5000) * sh;
@@ -802,7 +804,7 @@ DEMOS.dds = env => {
       ctx.restore();
       // scope
       const oy = sy + sh + 20, oh = h - oy - 14;
-      rr(ctx, sx, oy, sw, oh, 8); ctx.fillStyle = "rgba(255,255,255,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
+      rr(ctx, sx, oy, sw, oh, 8); ctx.fillStyle = "rgba(26,26,25,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
       txt(ctx, "DAC out (SPI)", sx + 8, oy + 14, { size: 9.5, color: PAL.dim });
       const amp = f ? 1 : 0.02, cyc = (f || 1000) / 600;
       ctx.save(); glowLine(ctx, PAL.emb, 1.6, 8); ctx.beginPath();
@@ -851,7 +853,7 @@ DEMOS.pid = env => {
       ctx.fillStyle = PAL.text; ctx.beginPath(); ctx.arc(pvx, pvy, 5, 0, 7); ctx.fill();
       // motor + spinning prop (perpendicular to arm)
       const nx = Math.cos(th), ny = -Math.sin(th), pl = 18 * Math.abs(Math.cos(prop));
-      ctx.fillStyle = "#cbd5e1"; ctx.beginPath(); ctx.arc(ax, ay, 6, 0, 7); ctx.fill();
+      ctx.fillStyle = PAL.muted; ctx.beginPath(); ctx.arc(ax, ay, 6, 0, 7); ctx.fill();
       ctx.strokeStyle = alpha(PAL.text, 0.8); ctx.lineWidth = 3; ctx.beginPath();
       ctx.moveTo(ax - Math.sin(th) * 8 - nx * pl, ay - Math.cos(th) * 8 - ny * pl); ctx.lineTo(ax - Math.sin(th) * 8 + nx * pl, ay - Math.cos(th) * 8 + ny * pl); ctx.stroke();
       // thrust arrow
@@ -864,19 +866,19 @@ DEMOS.pid = env => {
       ["P", "I", "D"].forEach((n, i) => {
         const y = 22 + i * 20, v = clamp(terms[i] / UMAX, -1, 1);
         txt(ctx, n, bx, y + 8, { size: 10.5, color: PAL.text, weight: 600 });
-        ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.fillRect(bx + 16, y, bw - 16, 10);
+        ctx.fillStyle = "rgba(26,26,25,0.05)"; ctx.fillRect(bx + 16, y, bw - 16, 10);
         const mid = bx + 16 + (bw - 16) / 2; ctx.fillStyle = [PAL.emb, PAL.perf, PAL.fpga][i];
         ctx.fillRect(Math.min(mid, mid + v * (bw - 16) / 2), y, Math.abs(v) * (bw - 16) / 2, 10);
       });
       // plot
       const py = 96, ph = h - py - 22;
-      rr(ctx, bx, py, bw, ph, 8); ctx.fillStyle = "rgba(255,255,255,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
+      rr(ctx, bx, py, bw, ph, 8); ctx.fillStyle = "rgba(26,26,25,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
       const Y = v => py + ph - (v / 180) * ph;
       [[2, alpha(PAL.red, 0.35), 1], [1, PAL.rob, 1.2], [0, PAL.emb, 2]].forEach(([k, c, lw]) => {
         ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.beginPath();
         hist.forEach((p, i) => { const x = bx + (i / 239) * bw, y = Y(clamp(p[k], 0, 180)); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke();
       });
-      ctx.strokeStyle = "rgba(255,255,255,0.12)"; ctx.setLineDash([2, 4]); ctx.beginPath(); ctx.moveTo(bx, Y(90)); ctx.lineTo(bx + bw, Y(90)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = "rgba(26,26,25,0.12)"; ctx.setLineDash([2, 4]); ctx.beginPath(); ctx.moveTo(bx, Y(90)); ctx.lineTo(bx + bw, Y(90)); ctx.stroke(); ctx.setLineDash([]);
       txt(ctx, "90°", bx + 4, Y(90) - 4, { size: 9, color: PAL.dim });
       txt(ctx, "raw accel", bx + bw - 8, py + 14, { align: "right", size: 9, color: alpha(PAL.red, 0.8) });
       txt(ctx, "filtered", bx + bw - 68, py + 14, { align: "right", size: 9, color: PAL.emb });
@@ -943,11 +945,11 @@ DEMOS.bayes = env => {
       const mx = Math.max(...bel); let best = bel.indexOf(mx);
       for (let y = 0; y < GH; y++) for (let x = 0; x < GW; x++) {
         const i = y * GW + x, X = ox + x * cs, Y = oy + y * cs;
-        if (!exp[i]) { ctx.fillStyle = "#1b2233"; ctx.fillRect(X, Y, cs, cs); continue; }
-        ctx.fillStyle = "rgba(255,255,255,0.025)"; ctx.fillRect(X + 1, Y + 1, cs - 2, cs - 2);
+        if (!exp[i]) { ctx.fillStyle = PAL.stone; ctx.fillRect(X, Y, cs, cs); continue; }
+        ctx.fillStyle = "rgba(26,26,25,0.025)"; ctx.fillRect(X + 1, Y + 1, cs - 2, cs - 2);
         // dim a flat (uncertain) belief; brighten as it concentrates
         const v = Math.sqrt(bel[i] / (mx || 1)) * Math.min(1, 0.12 + mx * 4);
-        if (v > 0.02) { ctx.fillStyle = `rgba(251,191,36,${v * 0.9})`; ctx.fillRect(X + 1, Y + 1, cs - 2, cs - 2); }
+        if (v > 0.02) { ctx.fillStyle = `rgba(184,110,0,${v * 0.9})`; ctx.fillRect(X + 1, Y + 1, cs - 2, cs - 2); }
       }
       ctx.strokeStyle = alpha(PAL.rob, 0.4); ctx.lineWidth = 2; ctx.strokeRect(ox, oy, cs * GW, cs * GH);
       // most likely cell
@@ -959,7 +961,7 @@ DEMOS.bayes = env => {
         ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx + dx * len, ry + dy * len); ctx.stroke(); ctx.setLineDash([]);
         ctx.fillStyle = PAL.perf; ctx.beginPath(); ctx.arc(rx + dx * len, ry + dy * len, 2.2, 0, 7); ctx.fill();
       });
-      ctx.save(); ctx.fillStyle = "#fff"; ctx.shadowColor = "#fff"; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(rx, ry, cs * 0.22, 0, 7); ctx.fill(); ctx.restore();
+      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(rx, ry, cs * 0.22, 0, 7); ctx.fill(); ctx.restore();
       txt(ctx, `step ${steps}   P(best) = ${mx.toFixed(2)}`, ox, 20, { size: 10.5, color: PAL.text });
       txt(ctx, "■ belief  ○ true pose  ┄ ToF", ox + cs * GW, 20, { align: "right", size: 9.5, color: PAL.muted });
     }
@@ -1032,7 +1034,7 @@ DEMOS.pfrrt = env => {
       const s = Math.min((w - 24) / WW, (h - 40) / WH), ox = (w - s * WW) / 2, oy = 30;
       const X = x => ox + x * s, Y = y => oy + y * s;
       ctx.strokeStyle = alpha(PAL.rob, 0.45); ctx.lineWidth = 2; ctx.strokeRect(ox, oy, WW * s, WH * s);
-      ctx.fillStyle = "#1b2233"; rects.forEach(([rx, ry, rw, rh]) => ctx.fillRect(X(rx), Y(ry), rw * s, rh * s));
+      ctx.fillStyle = PAL.stone; rects.forEach(([rx, ry, rw, rh]) => ctx.fillRect(X(rx), Y(ry), rw * s, rh * s));
       ctx.strokeStyle = alpha(PAL.red, 0.8); ctx.setLineDash([4, 3]); ctx.beginPath();
       ctx.moveTo(X(keep.x), Y(keep.y - keep.r)); ctx.lineTo(X(keep.x + keep.r), Y(keep.y)); ctx.lineTo(X(keep.x), Y(keep.y + keep.r)); ctx.lineTo(X(keep.x - keep.r), Y(keep.y)); ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
       wps.forEach((p, i) => {
@@ -1047,8 +1049,8 @@ DEMOS.pfrrt = env => {
       ctx.strokeStyle = alpha(PAL.perf, 0.7); ctx.lineWidth = 1;
       parts.forEach(p => { ctx.beginPath(); ctx.moveTo(X(p.x), Y(p.y)); ctx.lineTo(X(p.x) + Math.cos(p.a) * 5, Y(p.y) + Math.sin(p.a) * 5); ctx.stroke(); });
       const R = s * 0.24;
-      ctx.save(); ctx.fillStyle = "#e5e7eb"; ctx.shadowColor = "#fff"; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(X(robot[0]), Y(robot[1]), R, 0, 7); ctx.fill(); ctx.restore();
-      ctx.strokeStyle = "#0b0f19"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(robot[0]), Y(robot[1])); ctx.lineTo(X(robot[0]) + Math.cos(heading) * R, Y(robot[1]) + Math.sin(heading) * R); ctx.stroke();
+      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(X(robot[0]), Y(robot[1]), R, 0, 7); ctx.fill(); ctx.restore();
+      ctx.strokeStyle = PAL.bg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(robot[0]), Y(robot[1])); ctx.lineTo(X(robot[0]) + Math.cos(heading) * R, Y(robot[1]) + Math.sin(heading) * R); ctx.stroke();
       const label = { localize: "1 · localize — particles converge", plan: "2 · plan — RRT grows", drive: "3 · drive — PF tracks pose", done: "✓ waypoints visited" }[phase];
       txt(ctx, label, ox, 20, { size: 10.5, color: PAL.text });
     }
@@ -1138,8 +1140,8 @@ DEMOS.prm = env => {
       clear(env, false);
       const { half, base, L, obs } = lay;
       // workspace
-      ctx.fillStyle = "rgba(255,255,255,0.03)"; ctx.fillRect(10, base[1], half - 20, 2);
-      ctx.fillStyle = "#1b2233"; ctx.fillRect(obs[0], obs[1], obs[2], obs[3]);
+      ctx.fillStyle = "rgba(26,26,25,0.03)"; ctx.fillRect(10, base[1], half - 20, 2);
+      ctx.fillStyle = PAL.stone; ctx.fillRect(obs[0], obs[1], obs[2], obs[3]);
       txt(ctx, "WORKSPACE", 14, 20, { size: 10, color: PAL.rob, weight: 600 });
       task.forEach((tk, i) => { ctx.strokeStyle = tk.pick ? alpha(PAL.perf, 0.6) : alpha(PAL.emb, 0.6); ctx.strokeRect(tk.x - 8, tk.y - 8, 16, 14); });
       const cur = task[seg % task.length];
@@ -1153,9 +1155,9 @@ DEMOS.prm = env => {
       const cx0 = half + 8, cw = w - cx0 - 12, cy0 = 30, ch = h - cy0 - 16;
       const CX = t1 => cx0 + ((t1 - T1[0]) / (T1[1] - T1[0])) * cw, CY = t2 => cy0 + ((t2 - T2[0]) / (T2[1] - T2[0])) * ch;
       txt(ctx, "C-SPACE  θ₁ × θ₂", cx0, 20, { size: 10, color: PAL.rob, weight: 600 });
-      for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) if (!cfree[i * N + j]) { ctx.fillStyle = "rgba(248,113,113,0.16)"; ctx.fillRect(cx0 + (i / N) * cw, cy0 + (j / N) * ch, cw / N + 0.5, ch / N + 0.5); }
+      for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) if (!cfree[i * N + j]) { ctx.fillStyle = "rgba(198,40,40,0.16)"; ctx.fillRect(cx0 + (i / N) * cw, cy0 + (j / N) * ch, cw / N + 0.5, ch / N + 0.5); }
       ctx.strokeStyle = PAL.line; ctx.strokeRect(cx0, cy0, cw, ch);
-      ctx.strokeStyle = "rgba(255,255,255,0.09)"; ctx.lineWidth = 1; ctx.beginPath();
+      ctx.strokeStyle = "rgba(26,26,25,0.09)"; ctx.lineWidth = 1; ctx.beginPath();
       edges.forEach((es, i) => es.forEach(j => { if (j > i) { ctx.moveTo(CX(nodes[i][0]), CY(nodes[i][1])); ctx.lineTo(CX(nodes[j][0]), CY(nodes[j][1])); } })); ctx.stroke();
       ctx.fillStyle = PAL.dim; nodes.forEach(n => ctx.fillRect(CX(n[0]) - 1.5, CY(n[1]) - 1.5, 3, 3));
       if (inserted) inserted.forEach((k, ii) => {
@@ -1164,7 +1166,7 @@ DEMOS.prm = env => {
         ctx.fillStyle = ii ? PAL.emb : PAL.perf; ctx.beginPath(); ctx.arc(CX(nodes[k][0]), CY(nodes[k][1]), 4, 0, 7); ctx.fill();
       });
       if (path && phase !== "ik") { ctx.save(); glowLine(ctx, PAL.rob, 2.2, 8); ctx.beginPath(); path.forEach((p, i) => (i ? ctx.lineTo(CX(p[0]), CY(p[1])) : ctx.moveTo(CX(p[0]), CY(p[1])))); ctx.stroke(); ctx.restore(); }
-      ctx.save(); ctx.fillStyle = "#fff"; ctx.shadowColor = "#fff"; ctx.shadowBlur = 8; ctx.beginPath(); ctx.arc(CX(q[0]), CY(q[1]), 3.5, 0, 7); ctx.fill(); ctx.restore();
+      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(CX(q[0]), CY(q[1]), 3.5, 0, 7); ctx.fill(); ctx.restore();
       const lbl = { ik: "IK → goal config", query: "insert start/goal · Dijkstra query", exec: "execute joint-space path" }[phase];
       txt(ctx, lbl, w - 14, h - 22, { align: "right", size: 10, color: PAL.text });
       // keep the roadmap from growing without bound
@@ -1202,12 +1204,12 @@ DEMOS.stepper = env => {
       clear(env);
       // side view arm (B shoulder, C elbow), A shown as base yaw dial
       const half = w * 0.5, bx = half * 0.45, by = h - 30, L1 = Math.min(h * 0.36, half * 0.38), L2 = L1 * 0.85;
-      ctx.fillStyle = "#1b2233"; rr(ctx, bx - 26, by - 6, 52, 18, 4); ctx.fill();
-      ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.fillRect(10, by + 12, half - 20, 2);
+      ctx.fillStyle = PAL.stone; rr(ctx, bx - 26, by - 6, 52, 18, 4); ctx.fill();
+      ctx.fillStyle = "rgba(26,26,25,0.05)"; ctx.fillRect(10, by + 12, half - 20, 2);
       const a1 = (J[1].act * Math.PI) / 180, a2 = a1 + (J[2].act * Math.PI) / 180;
       const e = [bx + Math.cos(a1) * L1, by - 6 - Math.sin(a1) * L1], tip = [e[0] + Math.cos(a2) * L2, e[1] - Math.sin(a2) * L2];
       ctx.save(); glowLine(ctx, PAL.rob, 7, 8); ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(bx, by - 6); ctx.lineTo(...e); ctx.lineTo(...tip); ctx.stroke(); ctx.restore();
-      [[bx, by - 6], e].forEach(p => { ctx.fillStyle = "#2b3450"; ctx.beginPath(); ctx.arc(p[0], p[1], 8, 0, 7); ctx.fill(); ctx.strokeStyle = PAL.emb; ctx.lineWidth = 1.5; ctx.stroke(); });
+      [[bx, by - 6], e].forEach(p => { ctx.fillStyle = PAL.panel; ctx.beginPath(); ctx.arc(p[0], p[1], 8, 0, 7); ctx.fill(); ctx.strokeStyle = PAL.emb; ctx.lineWidth = 1.5; ctx.stroke(); });
       const ga = 0.25 + grip * 0.45;
       ctx.strokeStyle = PAL.text; ctx.lineWidth = 2.5;
       [-1, 1].forEach(sd => { ctx.beginPath(); ctx.moveTo(...tip); ctx.lineTo(tip[0] + Math.cos(a2 + sd * ga) * 14, tip[1] - Math.sin(a2 + sd * ga) * 14); ctx.stroke(); });
@@ -1248,16 +1250,16 @@ DEMOS.gemm = env => {
       const cx = 18 + S + 14, cy = 26 + S + 10, ax = 18, by = 26;
       const grid = (x, y, label, fill) => {
         txt(ctx, label, x, y - 6, { size: 10, color: PAL.muted });
-        for (let r = 0; r < NT; r++) for (let c = 0; c < NT; c++) { const f = fill(r, c); ctx.fillStyle = f || "rgba(255,255,255,0.04)"; ctx.fillRect(x + c * ts + 1, y + r * ts + 1, ts - 2, ts - 2); }
+        for (let r = 0; r < NT; r++) for (let c = 0; c < NT; c++) { const f = fill(r, c); ctx.fillStyle = f || "rgba(26,26,25,0.04)"; ctx.fillRect(x + c * ts + 1, y + r * ts + 1, ts - 2, ts - 2); }
       };
       grid(ax, cy, "A", (r, c) => (r === ii && c === kk ? alpha(PAL.perf, 0.75) : null));
       grid(cx, by, "B", (r, c) => (r === kk && c === jj ? alpha(PAL.fpga, 0.75) : null));
-      grid(cx, cy, "C += A·B", (r, c) => { const v = acc[r * NT + c]; return v ? `rgba(120,240,210,${0.12 + (v / NT) * 0.6})` : null; });
+      grid(cx, cy, "C += A·B", (r, c) => { const v = acc[r * NT + c]; return v ? `rgba(200,55,26,${0.12 + (v / NT) * 0.6})` : null; });
       ctx.save(); glowLine(ctx, PAL.brand, 2, 12); ctx.strokeRect(cx + jj * ts + 1, cy + ii * ts + 1, ts - 2, ts - 2); ctx.restore();
       // flow lines from A and B tiles into C tile
       ctx.strokeStyle = alpha(PAL.perf, 0.5); ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(ax + kk * ts + ts / 2, cy + ii * ts + ts / 2); ctx.lineTo(cx + jj * ts + ts / 2, cy + ii * ts + ts / 2); ctx.stroke();
       ctx.strokeStyle = alpha(PAL.fpga, 0.5); ctx.beginPath(); ctx.moveTo(cx + jj * ts + ts / 2, by + kk * ts + ts / 2); ctx.lineTo(cx + jj * ts + ts / 2, cy + ii * ts + ts / 2); ctx.stroke(); ctx.setLineDash([]);
-      rr(ctx, ax, by, S - 4, S - 10, 8); ctx.fillStyle = "rgba(255,255,255,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
+      rr(ctx, ax, by, S - 4, S - 10, 8); ctx.fillStyle = "rgba(26,26,25,0.02)"; ctx.fill(); ctx.strokeStyle = PAL.line; ctx.stroke();
       txt(ctx, "cache-resident", ax + 10, by + 18, { size: 9.5, color: PAL.dim });
       [[PAL.perf, "A tile"], [PAL.fpga, "B tile"], [PAL.brand, "C tile"]].forEach(([c, n], k) => { ctx.fillStyle = alpha(c, 0.75); ctx.fillRect(ax + 10, by + 30 + k * 16, 10, 10); txt(ctx, n, ax + 26, by + 39 + k * 16, { size: 9.5 }); });
       txt(ctx, `tile (${ii},${jj}) k=${kk}`, ax + 10, by + S - 20, { size: 9.5, color: PAL.text });
@@ -1268,7 +1270,7 @@ DEMOS.gemm = env => {
       bars.forEach(([n, v], i) => {
         const y = 38 + i * (bh + 16);
         txt(ctx, n, bx, y + 2, { size: 9.5, color: i === 5 ? PAL.dim : PAL.muted });
-        ctx.fillStyle = "rgba(255,255,255,0.04)"; ctx.fillRect(bx, y + 6, bw, bh);
+        ctx.fillStyle = "rgba(26,26,25,0.04)"; ctx.fillRect(bx, y + 6, bw, bh);
         ctx.fillStyle = i === 5 ? alpha(PAL.perf, 0.3) : i === 4 ? PAL.brand : alpha(PAL.perf, 0.8);
         ctx.fillRect(bx, y + 6, lg(v) * bw * ease(barT), bh);
         txt(ctx, `${v} s`, bx + lg(v) * bw * ease(barT) + 4, y + 6 + bh / 2 + 4, { size: 9.5, color: PAL.text });
@@ -1300,17 +1302,17 @@ DEMOS.bksb = env => {
       const ch = row >= 0 ? chunks(row) : [];
       txt(ctx, "U · x = b'   (solve bottom-up)", ox, 20, { size: 10, color: PAL.muted });
       for (let i = 0; i < n; i++) for (let j = i; j < n; j++) {
-        let col = "rgba(255,255,255,0.06)";
+        let col = "rgba(26,26,25,0.06)";
         if (i === row) {
           if (j === i) col = alpha(PAL.rob, 0.6);
           ch.forEach(([a, b], p) => { if (j >= a && j < b) col = alpha(THREAD_COLORS[p], 0.3 + 0.5 * ease(Math.min(1, t / 0.45))); });
-        } else if (i > row) col = "rgba(56,189,248,0.10)";
+        } else if (i > row) col = "rgba(31,95,191,0.10)";
         ctx.fillStyle = col; ctx.fillRect(ox + j * cs + 1, oy + i * cs + 1, cs - 2, cs - 2);
       }
       // x vector
       const xx = ox + S + 12;
       for (let i = 0; i < n; i++) {
-        ctx.fillStyle = x[i] ? alpha(PAL.brand, 0.7) : i === row ? alpha(PAL.rob, 0.25) : "rgba(255,255,255,0.05)";
+        ctx.fillStyle = x[i] ? alpha(PAL.brand, 0.7) : i === row ? alpha(PAL.rob, 0.25) : "rgba(26,26,25,0.05)";
         ctx.fillRect(xx, oy + i * cs + 1, cs - 2, cs - 2);
       }
       txt(ctx, "x", xx + cs / 2 - 3, oy - 6, { size: 10 });
@@ -1333,7 +1335,7 @@ DEMOS.bksb = env => {
           ctx.fillRect(bx + 40, y, (v / 3.3) * (bw - 40), 11);
           txt(ctx, `${v}×`, bx + 44 + (v / 3.3) * (bw - 40), y + 9.5, { size: 9.5, color: PAL.text });
         });
-        ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.setLineDash([2, 3]); const ox1 = bx + 40 + (1 / 3.3) * (bw - 40);
+        ctx.strokeStyle = "rgba(26,26,25,0.25)"; ctx.setLineDash([2, 3]); const ox1 = bx + 40 + (1 / 3.3) * (bw - 40);
         ctx.beginPath(); ctx.moveTo(ox1, 28); ctx.lineTo(ox1, 34 + vers.length * Math.min(30, (h - 60) / vers.length)); ctx.stroke(); ctx.setLineDash([]);
       }
     }
@@ -1367,10 +1369,10 @@ DEMOS.spgemm = env => {
         pl.lanes.forEach((lane, p) => {
           const y = y0 + 20 + p * (lh + 4); let x = 0;
           txt(ctx, `T${p}`, 14, y + lh - 4, { size: 9.5, color: THREAD_COLORS[p] });
-          ctx.fillStyle = "rgba(255,255,255,0.03)"; ctx.fillRect(lx, y, lw, lh);
+          ctx.fillStyle = "rgba(26,26,25,0.03)"; ctx.fillRect(lx, y, lw, lh);
           lane.forEach(i => {
             const v = rows[i], vis = clamp(t - x, 0, v);
-            if (vis > 0) { ctx.fillStyle = `hsla(${(i * 37) % 360},70%,60%,0.8)`; ctx.fillRect(lx + (x / maxSpan) * lw, y + 1, Math.max(1, (vis / maxSpan) * lw - 1), lh - 2); }
+            if (vis > 0) { ctx.fillStyle = `hsla(${(i * 37) % 360},55%,52%,0.85)`; ctx.fillRect(lx + (x / maxSpan) * lw, y + 1, Math.max(1, (vis / maxSpan) * lw - 1), lh - 2); }
             x += v;
           });
         });

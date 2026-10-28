@@ -2,29 +2,24 @@
 
 const CATEGORIES = [
   {
-    id: "robotics", short: "Robotics", name: "Robotics & Autonomy", color: "var(--c-robotics)", hex: "#fbbf24",
-    blurb: "Estimation, planning and control on real robots — from particle filters to closed-loop steppers.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M3 13h2M19 13h2"/></svg>'
+    id: "robotics", short: "Robotics", name: "Robotics & Autonomy", color: "var(--c-robotics)",
+    blurb: "Estimation, planning and control on real robots — from particle filters to closed-loop steppers."
   },
   {
-    id: "perf", short: "Performance", name: "Performance Engineering", color: "var(--c-perf)", hex: "#38bdf8",
-    blurb: "Profiling-driven optimization of dense, sparse and ML workloads on multicore CPUs.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19h16M7 16V10M12 16V5M17 16v-4"/></svg>'
+    id: "perf", short: "Performance", name: "Performance Engineering", color: "var(--c-perf)",
+    blurb: "Profiling-driven optimization of dense, sparse and ML workloads on multicore CPUs."
   },
   {
-    id: "embedded", short: "Embedded", name: "Embedded Systems", color: "var(--c-embedded)", hex: "#4ade80",
-    blurb: "Real-time firmware on the RP2350: interrupts, DMA, dual-core scheduling and fixed-point math.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>'
+    id: "embedded", short: "Embedded", name: "Embedded Systems", color: "var(--c-embedded)",
+    blurb: "Real-time firmware on the RP2350: interrupts, DMA, dual-core scheduling and fixed-point math."
   },
   {
-    id: "fpga", short: "FPGA & HLS", name: "FPGA & Hardware Acceleration", color: "var(--c-fpga)", hex: "#f472b6",
-    blurb: "Custom datapaths in programmable logic and high-level synthesis for compute-heavy kernels.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>'
+    id: "fpga", short: "FPGA & HLS", name: "FPGA & Hardware Acceleration", color: "var(--c-fpga)",
+    blurb: "Custom datapaths in programmable logic and high-level synthesis for compute-heavy kernels."
   },
   {
-    id: "silicon", short: "Silicon", name: "Silicon & Architecture", color: "var(--c-silicon)", hex: "#a78bfa",
-    blurb: "Transistor-level layout, RTL processors and ASIC accelerators taken through physical design.",
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16M8 4v16M16 4v16"/></svg>'
+    id: "silicon", short: "Silicon", name: "Silicon & Architecture", color: "var(--c-silicon)",
+    blurb: "Transistor-level layout, RTL processors and ASIC accelerators taken through physical design."
   }
 ];
 
@@ -223,7 +218,7 @@ const PROJECTS = [
       "<b>Autonomy:</b> 360° ToF scans build a map; a grid Bayes filter localizes the robot in sim and on the real car, then drives a waypoint path."
     ],
     figs: [["fr-stunt.webp", "Flip stunt with KF distance estimate"], ["fr-bel.webp", "Bayes-filter belief vs. ground truth"]],
-    hint: "belief (glow) converging on the true pose"
+    hint: "belief converging on the true pose"
   },
   {
     id: "roomba", repo: "https://github.com/IvannnHuang/Ece4180_Project", cat: "robotics", demo: "pfrrt",
