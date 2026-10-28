@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ivan Huang — Portfolio</title>
+  <meta name="description" content="Ivan Huang — Cornell ECE. Projects across silicon, FPGA acceleration, embedded systems, robotics and performance engineering, each with a live interactive demo.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0f19'/%3E%3Cpath d='M9 8v16M23 8v16M9 16h14' stroke='%2378f0d2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#projects">Skip to projects</a>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="#top"><span class="brand-mark">IH</span><span>Ivan Huang</span></a>
+    <nav class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <canvas id="hero-bg" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow mono">M.Eng ECE · Cornell University · CPU logic design</p>
+        <h1>From <span class="grad">transistors</span><br>to <span class="grad grad-2">robots</span>.</h1>
+        <p class="lede">I'm an ECE Master's student specializing in CPU logic design: front-end RTL and microarchitecture. My projects span the whole stack, from custom silicon and FPGA accelerators to real-time firmware and autonomous robots.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#projects">Explore projects <span aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt id="stat-projects">18</dt><dd>projects</dd></div>
+          <div><dt>5</dt><dd>layers of the stack</dd></div>
+          <div><dt>18</dt><dd>live demos</dd></div>
+        </dl>
+      </div>
+
+      <!-- The computing stack doubles as the category index -->
+      <div class="stack" id="stack" role="list" aria-label="Project categories">
+        <p class="stack-title mono">// the stack I work across</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section class="projects" id="projects">
+    <div class="section-head">
+      <p class="eyebrow mono">01 — Work</p>
+      <h2>Projects</h2>
+      <p class="section-sub">Every card runs a live demo of how the project works. Click <b>Details</b> for the approach, results and figures.</p>
+    </div>
+
+    <div class="filters" id="filters" role="tablist" aria-label="Filter projects by category"></div>
+    <div id="catalog"></div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <div class="section-head">
+      <p class="eyebrow mono">02 — About</p>
+      <h2>About me</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-side">
+        <img class="avatar" src="assets/img/headshot.jpg" alt="Portrait of Ivan Huang" width="400" height="400" loading="lazy">
+        <p class="about-name">Ivan Huang <span>he/him</span></p>
+        <p class="about-loc mono">Ithaca, NY · Cornell ECE</p>
+      </div>
+      <div class="about-copy">
+        <p>I'm an Electrical and Computer Engineering Master's student at Cornell, specializing in <b>CPU logic design</b>: front-end RTL and microarchitecture.</p>
+        <p>More broadly I'm interested in computer architecture, ASIC/FPGA design and integrated circuits, and the projects above reflect that range: full-custom CMOS layout, a self-written RTL-to-GDS flow, multicore RISC-V, FPGA and HLS accelerators, firmware and robotics.</p>
+
+        <div class="timeline-grid">
+          <div>
+            <h5 class="tl-head mono">Education</h5>
+            <ol class="timeline">
+              <li><span class="tl-date mono">Jan – Dec 2026</span><b>M.Eng, Electrical &amp; Computer Engineering</b><i>Cornell University</i></li>
+              <li><span class="tl-date mono">Aug 2022 – May 2026</span><b>B.S., Electrical &amp; Computer Engineering</b><i>Cornell University · GPA 3.81</i></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="skills" id="skills"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <p class="eyebrow mono">03 — Contact</p>
+    <h2>Let's build something fast.</h2>
+    <p class="section-sub">Open to connecting about CPU logic design, RTL and microarchitecture, computer architecture and ASIC/FPGA roles.</p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:qh229@cornell.edu">qh229@cornell.edu</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/ivan-huang-4a02a7246" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </section>
+
+  <footer class="footer mono">© <span id="year"></span> Ivan Huang · Demos are illustrative simulations of each project's concept; numbers on cards come from project reports.</footer>
+
+  <!-- ============ DETAIL MODAL ============ -->
+  <dialog class="modal" id="modal" aria-labelledby="modal-title">
+    <div class="modal-shell">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <div class="modal-demo"><canvas id="modal-canvas"></canvas><span class="demo-hint mono" id="modal-hint"></span></div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </dialog>
+
+  <script src="js/projects.js"></script>
+  <script src="js/demos.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
