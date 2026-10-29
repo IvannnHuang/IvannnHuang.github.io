@@ -24,7 +24,9 @@
       <a href="#projects"><span>§1</span> Projects</a>
       <a href="#about"><span>§2</span> About</a>
       <a href="#contact"><span>§3</span> Contact</a>
+      <button class="cmd-btn" id="cmd-btn" aria-label="Open command palette"><span aria-hidden="true">&gt;_</span><kbd><span class="kbd-mod">Ctrl</span> K</kbd></button>
     </nav>
+    <div class="nav-progress" id="nav-progress" aria-hidden="true"></div>
   </header>
 
   <main>
@@ -32,6 +34,7 @@
     <section class="hero" id="top">
       <div class="sheet">
         <div class="zones mono" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+        <div class="probe" id="probe" aria-hidden="true"><i class="probe-x"></i><i class="probe-y"></i><span class="probe-tag mono"></span></div>
 
         <div class="hero-grid">
           <div class="hero-copy">
@@ -132,7 +135,29 @@
   <footer class="footer mono">
     <span>© <span id="year"></span> Ivan Huang</span>
     <span>Figures are illustrative simulations; numbers come from the project reports.</span>
+    <span>psst: ↑↑↓↓←→←→ B A</span>
   </footer>
+
+  <!-- ============ STATUS BAR ============ -->
+  <div class="statusbar mono" id="statusbar" aria-hidden="true">
+    <span class="sb-run"><i></i>RUN</span>
+    <span id="sb-sec">§0 Sheet</span>
+    <span id="sb-pc">PC 0x00000</span>
+    <span>clk <b>25 MHz</b></span>
+    <span>cyc <b id="sb-cyc">0</b></span>
+    <span>live <b id="sb-live">0/18</b></span>
+    <span><b id="sb-fps">60</b> fps</span>
+    <span class="sb-oc" id="sb-oc" hidden>OC 2×</span>
+    <span class="sb-right"><kbd>/</kbd> or <kbd><span class="kbd-mod">Ctrl</span> K</kbd> commands</span>
+  </div>
+  <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ============ COMMAND PALETTE ============ -->
+  <dialog class="palette" id="palette" aria-label="Command palette">
+    <div class="pal-input"><span aria-hidden="true">&gt;</span><input id="pal-q" type="text" autocomplete="off" spellcheck="false" placeholder="Jump to a project, area or action…" role="combobox" aria-expanded="true" aria-controls="pal-list"></div>
+    <ul class="pal-list" id="pal-list" role="listbox"></ul>
+    <div class="pal-foot mono"><span><kbd>↑</kbd><kbd>↓</kbd> select</span><span><kbd>↵</kbd> run</span><span><kbd>esc</kbd> close</span></div>
+  </dialog>
 
   <!-- ============ DETAIL MODAL ============ -->
   <dialog class="modal" id="modal" aria-labelledby="modal-title">
