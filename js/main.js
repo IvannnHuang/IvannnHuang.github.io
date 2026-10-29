@@ -85,8 +85,8 @@
   /* ---------------- hero: timing diagram ---------------- */
   const wv = $("#wave"), wx = wv.getContext("2d");
   const P = 26, SEG = 8, SL = P * SEG, LABW = 104;
-  const INK = "#1a1a19", RULE = "#d9d5ca", DIM = "#8f8c83", MARK = "#c8371a", SHEET = "#fbfaf7", PAPER = "#f4f2ec";
-  const catHex = { silicon: "#5a3fb0", fpga: "#b8325f", embedded: "#1f7a45", perf: "#1f5fbf", robotics: "#b86e00" };
+  const INK = "#ecebe6", RULE = "#262624", RULE2 = "#3b3a36", DIM = "#6d6b64", MARK = "#ff5a36", SHEET = "#141413", PAPER = "#0e0e0d";
+  const catHex = { silicon: "#a693ff", fpga: "#f26d9b", embedded: "#4cc98a", perf: "#5aa7ff", robotics: "#e9b54a" };
   let WW = 0, WH = 0, wdpr = 1, woff = SL * 0.35, hoverX = -1, waveVisible = true;
   const segCat = k => catalogOrder[((k % catalogOrder.length) + catalogOrder.length) % catalogOrder.length];
   function wresize() {
@@ -109,7 +109,7 @@
     for (let k = k0; k <= k1; k++) {
       const c = segCat(k), xs = LABW + k * SL - woff, xe = xs + SL, d = 5;
       wx.beginPath(); wx.moveTo(xs + d, y - hh); wx.lineTo(xe - d, y - hh); wx.lineTo(xe, y); wx.lineTo(xe - d, y + hh); wx.lineTo(xs + d, y + hh); wx.lineTo(xs, y); wx.closePath();
-      wx.fillStyle = k === hoverK ? catHex[c.id] + "33" : catHex[c.id] + "12"; wx.fill(); wx.stroke();
+      wx.fillStyle = k === hoverK ? catHex[c.id] + "40" : catHex[c.id] + "1a"; wx.fill(); wx.stroke();
       const vx0 = Math.max(xs, LABW), vx1 = Math.min(xe, WW);
       if (vx1 - vx0 > 46) {
         wx.fillStyle = catHex[c.id]; wx.font = '600 11px "JetBrains Mono", monospace'; wx.textAlign = "center"; wx.textBaseline = "middle";
@@ -126,7 +126,7 @@
     wx.fillStyle = RULE;
     for (let t = Math.ceil(woff / P) * P; LABW + t - woff < WW; t += P) wx.fillRect(Math.round(LABW + t - woff), 0, 1, WH);
     // label column
-    wx.fillStyle = PAPER; wx.fillRect(0, 0, LABW, WH); wx.fillStyle = "#b9b4a8"; wx.fillRect(LABW, 0, 1, WH);
+    wx.fillStyle = PAPER; wx.fillRect(0, 0, LABW, WH); wx.fillStyle = RULE2; wx.fillRect(LABW, 0, 1, WH);
     wx.font = '500 11px "JetBrains Mono", monospace'; wx.textAlign = "right"; wx.textBaseline = "middle";
     rows.forEach((r, i) => { wx.fillStyle = i === 1 ? MARK : DIM; wx.fillText(r, LABW - 12, ys[i]); });
     wx.save(); wx.beginPath(); wx.rect(LABW + 1, 0, WW - LABW, WH); wx.clip();
