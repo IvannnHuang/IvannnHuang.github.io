@@ -1,5 +1,5 @@
 /* =========================================================
-   Page wiring: timing-diagram header, index table, filters,
+   Page wiring: hero trace background, timing-diagram header, index table, filters,
    catalog, demo runners and the detail modal.
    ========================================================= */
 (() => {
@@ -133,7 +133,7 @@
     wx.font = '500 11px "JetBrains Mono", monospace'; wx.textAlign = "right"; wx.textBaseline = "middle";
     rows.forEach((r, i) => { wx.fillStyle = i === 1 ? MARK : DIM; wx.fillText(r, LABW - 12, ys[i]); });
     wx.save(); wx.beginPath(); wx.rect(LABW + 1, 0, WW - LABW, WH); wx.clip();
-    wx.strokeStyle = INK; wx.lineWidth = 1.4; wx.lineJoin = "miter";
+    wx.strokeStyle = INK; wx.lineWidth = 1.4; wx.lineJoin = "miter"; wx.shadowColor = "rgba(236,235,230,0.35)"; wx.shadowBlur = 4;
     const hoverK = hoverX > LABW ? Math.floor((woff + hoverX - LABW) / SL) : null;
     digital(ys[0], t => Math.floor(t / (P / 2)) % 2 === 0);
     bus(ys[1], c => c.short.toUpperCase(), hoverK);
@@ -151,6 +151,54 @@
     const x = e.clientX - wv.getBoundingClientRect().left; if (x <= LABW) return;
     goTo(segCat(Math.floor((woff + x - LABW) / SL)).id);
   });
+
+  /* ---------------- hero background: routed traces with signal pulses ---------------- */
+  // from the first version of the site, re-inked in the current palette; pulses brighten near the pointer
+  const hc = $("#hero-bg"), hx = hc.getContext("2d"), traceCols = [MARK, ...Object.values(catHex)];
+  let traces = [], HW = 0, HH = 0, hdpr = 1, heroVisible = true, mouse = [-999, -999];
+  function buildTraces() {
+    const r = hc.getBoundingClientRect(); HW = r.width; HH = r.height; hdpr = Math.min(1.5, devicePixelRatio || 1);
+    hc.width = Math.round(HW * hdpr); hc.height = Math.round(HH * hdpr);
+    const g = 28, n = Math.min(170, Math.round((HW * HH) / 15000));
+    traces = Array.from({ length: n }, () => {
+      let x = Math.round(Math.random() * HW / g) * g, y = Math.round(Math.random() * HH / g) * g, horiz = Math.random() < 0.5;
+      const pts = [[x, y]];
+      for (let s = 0; s < 3 + Math.floor(Math.random() * 5); s++) {
+        const len = g * (2 + Math.floor(Math.random() * 6)) * (Math.random() < 0.5 ? -1 : 1);
+        if (horiz) x += len; else y += len; pts.push([x, y]);
+        if (Math.random() < 0.5) { const d = g * (Math.random() < 0.5 ? -1 : 1); x += d; y += d; pts.push([x, y]); } // 45° jog
+        horiz = !horiz;
+      }
+      const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+      return { pts, cum, len: cum[cum.length - 1], s: Math.random() * cum[cum.length - 1], v: 60 + Math.random() * 120, c: traceCols[Math.floor(Math.random() * traceCols.length)] };
+    });
+    drawTraces(0);
+  }
+  function at(tr, s) {
+    s = Math.max(0, Math.min(tr.len, s)); let i = 1; while (i < tr.cum.length - 1 && tr.cum[i] < s) i++;
+    const a = tr.pts[i - 1], b = tr.pts[i], f = (s - tr.cum[i - 1]) / (tr.cum[i] - tr.cum[i - 1] || 1);
+    return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+  }
+  function drawTraces(dt) {
+    hx.setTransform(hdpr, 0, 0, hdpr, 0, 0); hx.clearRect(0, 0, HW, HH);
+    hx.lineWidth = 1; hx.strokeStyle = "rgba(236,235,230,0.07)"; hx.beginPath();
+    traces.forEach(tr => tr.pts.forEach((p, i) => (i ? hx.lineTo(p[0], p[1]) : hx.moveTo(p[0], p[1])))); hx.stroke();
+    hx.fillStyle = "rgba(236,235,230,0.18)";
+    traces.forEach(tr => { const a = tr.pts[0], b = tr.pts[tr.pts.length - 1]; hx.fillRect(a[0] - 2, a[1] - 2, 4, 4); hx.fillRect(b[0] - 2, b[1] - 2, 4, 4); });
+    traces.forEach(tr => {
+      if (!reduced) tr.s += tr.v * dt * clockMul;
+      if (tr.s > tr.len + 60) tr.s = -20;
+      const head = at(tr, tr.s), near = Math.hypot(head[0] - mouse[0], head[1] - mouse[1]) < 160;
+      hx.strokeStyle = tr.c; hx.globalAlpha = near ? 1 : 0.55; hx.lineWidth = near ? 2 : 1.5; hx.shadowColor = tr.c; hx.shadowBlur = near ? 14 : 8;
+      hx.beginPath(); for (let k = 0; k <= 8; k++) { const p = at(tr, tr.s - 50 + k * 6.25); k ? hx.lineTo(p[0], p[1]) : hx.moveTo(p[0], p[1]); } hx.stroke();
+      hx.shadowBlur = 0; hx.globalAlpha = 1;
+    });
+  }
+  new ResizeObserver(buildTraces).observe(hc);
+  new IntersectionObserver(([e]) => (heroVisible = e.isIntersecting)).observe(hc);
+  frameHooks.push(dt => heroVisible && drawTraces(dt));
+  $(".hero").addEventListener("pointermove", e => { const r = hc.getBoundingClientRect(); mouse = [e.clientX - r.left, e.clientY - r.top]; });
+  $(".hero").addEventListener("pointerleave", () => (mouse = [-999, -999]));
 
   /* ---------------- filters ---------------- */
   const filters = $("#filters");

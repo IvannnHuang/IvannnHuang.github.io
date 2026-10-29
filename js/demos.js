@@ -45,7 +45,7 @@ function alpha(hex, a) {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
 }
-function glowLine(ctx, color, width) { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.shadowBlur = 0; } // flat ink, no glow
+function glowLine(ctx, color, width, blur = 10) { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.shadowColor = color; ctx.shadowBlur = blur; }
 function noGlow(ctx) { ctx.shadowBlur = 0; }
 
 /* ---------------------------------------------------------
@@ -240,7 +240,7 @@ DEMOS.pipeline = env => {
         packets.forEach(pk => {
           pk.p = (pk.p + pk.v * dt + 8) % 8;
           const a = (pk.p / 8) * Math.PI * 2 - Math.PI / 2;
-          ctx.save(); ctx.fillStyle = pk.c; ctx.shadowColor = pk.c; ctx.shadowBlur = 0;
+          ctx.save(); ctx.fillStyle = pk.c; ctx.shadowColor = pk.c; ctx.shadowBlur = 8;
           ctx.beginPath(); ctx.arc(rcx + Math.cos(a) * rad, rcy + Math.sin(a) * rad, 3, 0, 7); ctx.fill(); ctx.restore();
         });
         txt(ctx, "ring", rcx, rcy + 3, { align: "center", size: 9, color: PAL.dim });
@@ -513,7 +513,7 @@ DEMOS.lorenz = env => {
       ctx.stroke();
     }
     const hd = proj(tr[tr.length - 1] || [0, 0, 25], w, h);
-    ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = col; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(hd[0], hd[1], 3, 0, 7); ctx.fill(); ctx.restore();
+    ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = col; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(hd[0], hd[1], 3, 0, 7); ctx.fill(); ctx.restore();
   }
   return {
     draw(dt) {
@@ -961,7 +961,7 @@ DEMOS.bayes = env => {
         ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx + dx * len, ry + dy * len); ctx.stroke(); ctx.setLineDash([]);
         ctx.fillStyle = PAL.perf; ctx.beginPath(); ctx.arc(rx + dx * len, ry + dy * len, 2.2, 0, 7); ctx.fill();
       });
-      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(rx, ry, cs * 0.22, 0, 7); ctx.fill(); ctx.restore();
+      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(rx, ry, cs * 0.22, 0, 7); ctx.fill(); ctx.restore();
       txt(ctx, `step ${steps}   P(best) = ${mx.toFixed(2)}`, ox, 20, { size: 10.5, color: PAL.text });
       txt(ctx, "■ belief  ○ true pose  ┄ ToF", ox + cs * GW, 20, { align: "right", size: 9.5, color: PAL.muted });
     }
@@ -1049,7 +1049,7 @@ DEMOS.pfrrt = env => {
       ctx.strokeStyle = alpha(PAL.perf, 0.7); ctx.lineWidth = 1;
       parts.forEach(p => { ctx.beginPath(); ctx.moveTo(X(p.x), Y(p.y)); ctx.lineTo(X(p.x) + Math.cos(p.a) * 5, Y(p.y) + Math.sin(p.a) * 5); ctx.stroke(); });
       const R = s * 0.24;
-      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(X(robot[0]), Y(robot[1]), R, 0, 7); ctx.fill(); ctx.restore();
+      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(X(robot[0]), Y(robot[1]), R, 0, 7); ctx.fill(); ctx.restore();
       ctx.strokeStyle = PAL.bg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(robot[0]), Y(robot[1])); ctx.lineTo(X(robot[0]) + Math.cos(heading) * R, Y(robot[1]) + Math.sin(heading) * R); ctx.stroke();
       const label = { localize: "1 · localize — particles converge", plan: "2 · plan — RRT grows", drive: "3 · drive — PF tracks pose", done: "✓ waypoints visited" }[phase];
       txt(ctx, label, ox, 20, { size: 10.5, color: PAL.text });
@@ -1166,7 +1166,7 @@ DEMOS.prm = env => {
         ctx.fillStyle = ii ? PAL.emb : PAL.perf; ctx.beginPath(); ctx.arc(CX(nodes[k][0]), CY(nodes[k][1]), 4, 0, 7); ctx.fill();
       });
       if (path && phase !== "ik") { ctx.save(); glowLine(ctx, PAL.rob, 2.2, 8); ctx.beginPath(); path.forEach((p, i) => (i ? ctx.lineTo(CX(p[0]), CY(p[1])) : ctx.moveTo(CX(p[0]), CY(p[1])))); ctx.stroke(); ctx.restore(); }
-      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 0; ctx.beginPath(); ctx.arc(CX(q[0]), CY(q[1]), 3.5, 0, 7); ctx.fill(); ctx.restore();
+      ctx.save(); ctx.fillStyle = PAL.text; ctx.shadowColor = PAL.text; ctx.shadowBlur = 8; ctx.beginPath(); ctx.arc(CX(q[0]), CY(q[1]), 3.5, 0, 7); ctx.fill(); ctx.restore();
       const lbl = { ik: "IK → goal config", query: "insert start/goal · Dijkstra query", exec: "execute joint-space path" }[phase];
       txt(ctx, lbl, w - 14, h - 22, { align: "right", size: 10, color: PAL.text });
       // keep the roadmap from growing without bound
